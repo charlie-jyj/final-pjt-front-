@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar navbar-expand-lg navbar-dark" style="background-color: #979DA6;">
+    <nav id="nav" class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(151, 157, 166, 1);">
       <div class="container-fluid">
         <router-link class="navbar-brand" :to="{name:'MoviePage'}"><i class="fab fa-mizuni" style="color:  #F2D64B;"></i></router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,14 +23,12 @@
           </ul>
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-search" type="submit">Search</button>
+            <button class="btn btn-search" type="button">Search</button>
           </form>
         </div>
       </div>
     </nav>
-    <div class="container mt-5">
       <router-view/>
-    </div>
   </div>
 </template>
 
@@ -51,7 +49,7 @@ export default {
 
 <style>
   body {
-    background-color: #F2EEB3;
+    background-color: rgba(242, 238, 179, 0.7);
   }
 
   #navbar{
@@ -65,6 +63,7 @@ export default {
 
   .btn-search:hover {
     background-color: #F2EEB3;
+    color: #68788C;
   }
 
 
