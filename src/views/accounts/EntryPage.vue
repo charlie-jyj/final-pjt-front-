@@ -1,35 +1,41 @@
 <template>
   <div>
     <video autoplay loop muted id="myVideo">
-      <source src="@/assets/images/main/video2.mp4" type="video/mp4">
+      <source src="@/assets/images/main/video3.mp4" type="video/mp4">
     </video>
     <div class="door row">
       <div class="col-12 col-md-2"></div>
       <div class="col-12 col-md-8 board">
         <div class="row mt-3">
-          <class class="col-1"></class>
-          <class class="col-10">
+          <div class="col-1"></div>
+          <div class="col-10">
             <img class="logo" src="@/assets/logo/logo_custom.png" alt="">
             <p class="slogan text-center">당신과 나의 우주를 찾아서</p>
-          </class>
-          <class class="col-1"></class>
+          </div>
+          <div class="col-1"></div>
         </div>
         <div class="row mt-2 mb-4">
           <div class="d-grid gap-2 mx-auto">
-            <button class="btn btn-start" type="button">시작하기</button>
+            <button class="btn btn-start" type="button" data-bs-toggle="modal" data-bs-target="#signupModal">시작하기</button>
             <button class="btn btn-login mt-1" type="button">로그인</button>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-2"></div>
     </div>  
+    <SignupBase/>
   </div>
     
 </template>
 
 <script>
+import SignupBase from '@/components/accounts/SignupBase.vue'
+
 export default {
   name: 'EntryPage',
+  components: {
+    SignupBase,
+  },
 }
 </script>
 
