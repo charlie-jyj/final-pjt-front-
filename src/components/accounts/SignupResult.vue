@@ -9,7 +9,7 @@
               <div class="d-flex justify-content-between">
                 <p class="card-header-text">당신의 이름은,</p>
                 <div class="share d-flex align-items-start">
-                  <button type="button" class="btn btn-share" data-bs-toggle="tooltip" data-bs-placement="top" title="카카오톡으로 공유">
+                  <button @click="kakaoShare" type="button" class="btn btn-share" data-bs-toggle="tooltip" data-bs-placement="top" title="카카오톡으로 공유">
                     <i class="fas fa-share-square share-icon"></i></button>
                 </div>
               </div>
@@ -30,7 +30,7 @@
     <div class="row series-wrapper">
       <div class="col-1"></div>
       <div class="col-10">
-        <p class="text-center series-title">"{{Nickname}}"가 봐야 할 영화 ({{MovieSeries.length}})</p>
+        <p class="text-center series-title">"{{Nickname}}"에게 추천하는 영화 ({{MovieSeries.length}})</p>
         <MovieSlider/>
       </div>
       <div class="col-1"></div>
@@ -48,6 +48,46 @@ export default {
   },
   computed: {
     ...mapGetters(['Nickname', 'MovieSeries'])
+  },
+  methods: {
+    kakaoShare(){
+      console.log(window.Kakao)
+      window.Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: this.Nickname+'이(가) 보냅니다.',
+          description: '무야호~ 당신을 초대합니다.',
+          imageUrl:
+            'https://t1.daumcdn.net/cfile/tistory/2467D839578799D634',
+          link: {
+            mobileWebUrl: 'http://172.16.101.102:8080/',
+            webUrl: 'http://172.16.101.102:8080/',
+            androidExecParams: 'test',
+          },
+        },
+        social: {
+          likeCount: 10,
+          commentCount: 20,
+          sharedCount: 30,
+        },
+        buttons: [
+          {
+            title: '웹으로 이동',
+            link: {
+              mobileWebUrl: 'http://172.16.101.102:8080/',
+              webUrl: 'http://172.16.101.102:8080/',
+            },
+          },
+          {
+            title: '앱으로 이동',
+            link: {
+              mobileWebUrl: 'http://172.16.101.102:8080/',
+              webUrl: 'http://172.16.101.102:8080/',
+            },
+          },
+        ]
+});
+    }
   },
 }
 </script>

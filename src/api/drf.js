@@ -5,5 +5,6 @@ export default {
     allMovies: 'movies/',
     series: 'accounts/profile/series/',
     nickname: 'accounts/profile/character/',
+    login: 'rest-auth/login/'
   }
 }

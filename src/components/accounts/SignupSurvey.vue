@@ -96,7 +96,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .greeting {
     font-size: 0.8rem;
     color: grey;

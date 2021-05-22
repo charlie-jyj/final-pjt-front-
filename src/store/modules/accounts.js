@@ -1,6 +1,6 @@
 // import axios from 'axios'
 // import DRF from '@/api/drf.js'
-// import router from '@/router/index.js'
+import router from '@/router/index.js'
 import cookies from 'vue-cookies'
 
 const state = {
@@ -75,11 +75,11 @@ const actions = {
    // server랑 연결 한 후에 무한 스크롤 적용하면 될 것 같다.
 
    const movieList = [
-    {pk: 1, title:'아이언맨', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 2, title:'토르', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 3, title:'닥터스트레인지', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 4, title:'캡틴아메리카', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 5, title:'헐크', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
+    {pk: 1, title:'아이언맨', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
+    {pk: 2, title:'토르', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
+    {pk: 3, title:'닥터스트레인지', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
+    {pk: 4, title:'캡틴아메리카', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
+    {pk: 5, title:'헐크', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
    ]
 
    context.commit('SET_SIGNUP_MOVIELIST', movieList)
@@ -125,9 +125,19 @@ const actions = {
 
  },
  setNickname(context, nickname){
-   // axios 로 결정된 nickname을 전달한다.accounts/profile/character/
-   context.commit('SET_NICKNAME', nickname)
+  // axios 로 결정된 nickname을 전달한다.accounts/profile/character/
+  context.commit('SET_NICKNAME', nickname)
  },
+ login(context, loginInfo){
+  console.log(context, loginInfo)
+   // axios 로 login rest-auth/login/ username, password 전달
+   // response 로 jwt token 이 날아올테니 저장하자
+  const token = '12345'
+  context.commit('SET_TOKEN', token)
+  cookies.set('user-token', '12345', '1d')
+
+  router.push({name:'MoviePage'})
+ }
 }
 
 export default {
