@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <div class="row row-cols-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         <Movie v-for="(movie, index) in AllMovies" :key="index" :movie="movie"/>
     </div>
   </div>
