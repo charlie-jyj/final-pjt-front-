@@ -1,12 +1,23 @@
 <template>
-  <div>
-    모든 영화 목록은 한 번 보여줘야겠지 무한 스크롤~
+  <div class="container mt-5">
+    <div class="row row-cols-4">
+        <Movie v-for="(movie, index) in AllMovies" :key="index" :movie="movie"/>
+    </div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import Movie from '@/components/movies/Movie.vue'
+
 export default {
-  name: 'AllMovieList'
+  name: 'AllMovieList',
+  components: {
+    Movie,
+  },
+  computed: {
+    ...mapGetters(['AllMovies'])
+  }
 }
 </script>
 

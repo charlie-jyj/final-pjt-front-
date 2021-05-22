@@ -5,7 +5,6 @@ import cookies from 'vue-cookies'
 
 const state = {
  token: cookies.get('user-token'),
- signupMovieList: [],
  MovieSurvey: [],
  favorite: 0,
  characterSurvey: [],
@@ -15,9 +14,6 @@ const state = {
 const getters = {
  isAuthenticated(state){
    return state.token? true: false
- },
- SignupMovieList(state){
-   return state.signupMovieList
  },
  MovieRateCount(state){
   return state.MovieSurvey.length
@@ -33,9 +29,6 @@ const getters = {
 const mutations = {
  SET_TOKEN(state, token){
    state.token = token
- },
- SET_SIGNUP_MOVIELIST(state,movieList){
-   state.signupMovieList = movieList
  },
  SAVE_MOVIE_RATE(state,data){
    // 저장 전에 별점을 변경했는지 확인해봐야
@@ -67,22 +60,6 @@ const actions = {
   const token = '12345'
   context.commit('SET_TOKEN', token)
   cookies.set('user-token', '12345', '1d')
- },
- getSignUpMovieList(context) {
-   console.log(context)
-   console.log('설문조사용 영화를 가져올게')
-   // axios로  movies/ 에 get 요청을 하면 모든 영화 정보를 가져올 것 (페이지네이션 offset 적용)
-   // server랑 연결 한 후에 무한 스크롤 적용하면 될 것 같다.
-
-   const movieList = [
-    {pk: 1, title:'아이언맨', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
-    {pk: 2, title:'토르', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
-    {pk: 3, title:'닥터스트레인지', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
-    {pk: 4, title:'캡틴아메리카', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
-    {pk: 5, title:'헐크', poster_path:'https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp'},
-   ]
-
-   context.commit('SET_SIGNUP_MOVIELIST', movieList)
  },
  rateWatchedMovie(context, data){
    console.log(context, data)

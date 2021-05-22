@@ -9,6 +9,7 @@
             <SeriesMovieList/>
           </div>
           <div class="all-movies-wrapper">
+            <p class="h4">우리의 영화</p>
             <AllMovieList/>
           </div>
         </div>
@@ -29,10 +30,11 @@ export default {
     SeriesMovieList, AllMovieList
   },
   methods: {
-    ...mapActions(['getMovieSeries'])
+    ...mapActions(['getMovieSeries', 'getAllMovies'])
   },
   created(){
     this.getMovieSeries()
+    this.getAllMovies()
   },
   computed: {
     ...mapGetters(['isAuthenticated'])
@@ -42,6 +44,10 @@ export default {
 
 <style scoped>
 .movie-list-wrapper {
+  margin-top: 8rem;
+}
+
+.all-movies-wrapper {
   margin-top: 8rem;
 }
 

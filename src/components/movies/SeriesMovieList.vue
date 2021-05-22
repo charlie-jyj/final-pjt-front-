@@ -2,7 +2,7 @@
   <div class="example-3d">
     <swiper @click-slide="handleClickSlide" class="swiper" :options="swiperOption">
       <swiper-slide v-for="(movie, index) in MovieSeries" :key="index">
-        <img :src="movie.fields.poster_path" alt="" style='height: 100%; width: 100%; object-fit: contain'>
+        <img :src="movie.fields.poster_path" alt="" style='height: 100%; width: 100%; object-fit: cover'>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -38,10 +38,6 @@
           pagination: {
             el: '.swiper-pagination'
           },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          },
         }
       }
     },
@@ -70,10 +66,11 @@
   }
 
   .swiper { 
-    height: 15rem; width: 100%;
+    height: 25rem; width: 100%;
     }
 
   .swiper .swiper-slide { 
+    height: 23rem;
     display: flex; 
     justify-content: center; 
     align-items: center; 

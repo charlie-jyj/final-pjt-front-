@@ -44,9 +44,9 @@ export default {
       console.log('유저가 만들어졌다는 소문을 들었어')
       this.step1 = false
       this.step2 = true
-      this.getSignUpMovieList()
+      this.getAllMovies()
     },
-    ...mapActions(['getSignUpMovieList']),
+    ...mapActions(['getAllMovies']),
     showCharacterSurvey(){
       console.log('좋아하는 시리즈가 무엇인지 나는 알게되었어')
       this.step2 = false

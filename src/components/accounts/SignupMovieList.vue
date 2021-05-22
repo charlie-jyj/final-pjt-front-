@@ -8,7 +8,7 @@
             <p class="mb-0">봤던 영화 중에 좋아하는 영화, 이 중에 있나요?</p>
           </div>
           <div class="movie-list">
-            <SignupMovie v-for="(movie, index) in SignupMovieList" :key="index" :movie="movie"/>
+            <SignupMovie v-for="(movie, index) in AllMovies" :key="index" :movie="movie"/>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['SignupMovieList', 'MovieRateCount']),
+    ...mapGetters(['AllMovies', 'MovieRateCount']),
   }
 }
 </script>
