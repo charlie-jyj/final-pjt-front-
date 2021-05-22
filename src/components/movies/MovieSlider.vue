@@ -1,46 +1,79 @@
 <template>
-  <div class="mt-1">
-    <splide @splide:click="slideClick" :options="options">
-      <splide-slide v-for="(movie, index) in MovieSeries" :key="index">
-        <img src="https://i.insider.com/5ca3ba3792c88606ce34b614?width=700&format=jpeg&auto=webp" alt="" style='height: 100%; width: 100%; object-fit: contain'>
-        <div><p class="text-center">{{movie.title}}</p></div>
-      </splide-slide>
-    </splide>
-  </div>
+  <swiper @click-slide="handleClickSlide" class="swiper" :options="swiperOption">
+    <swiper-slide v-for="(movie, index) in MovieSeries" :key="index">
+      <div class="movie-wrapper">
+        <img :src="movie.fields.poster_path" alt="" style='height: 100%; width: 100%; object-fit: contain'>
+      </div>
+    </swiper-slide>
+    <div class="swiper-pagination" slot="pagination"></div>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-next"></div>
+  </swiper>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+  import { mapGetters } from 'vuex'
+  import 'swiper/css/swiper.css'
 
-export default {
-  name: 'MovieSlider',
-  computed: {
-    ...mapGetters(['MovieSeries'])
-  },
-  components: {
-    Splide,
-    SplideSlide,
-  },
-  data() {
-    return {
-      options: {
-        rewind: true,
-        perPage: 3,
-        gap: '1rem',
+  let vm = null
+  export default {
+    name: 'swiper-example-loop',
+    title: 'Loop mode / Infinite loop',
+    components: {
+      Swiper,
+      SwiperSlide
+    },
+    data() {
+      return {
+        swiperOption: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          },
+        }
+      }
+    },
+    computed: {
+      ...mapGetters(['MovieSeries'])
+    },
+    created(){
+      vm = this
+      console.log(vm)
+    },
+    methods: {
+      handleClickSlide(index, reallyIndex) {
+        console.log('Click slide!', index, reallyIndex)
+        this.showMovieDetail(reallyIndex)
+      },
+      showMovieDetail(index){
+        //Movie 객체 자체를 넘겨버리면.. Detail 에서 보여줄 수 있겠지요
+        console.log(this.MovieSeries[index])
       }
     }
-  },
-  methods: {
-    slideClick(splide) {
-      console.log(splide.index)
-    }
   }
-}
 </script>
 
 <style scoped>
+  .movie-wrapper {
+    width: 15rem;
+    height: 30rem
+  }
+  .swiper { 
+    height: 300px; width: 100%;
+    }
 
-
+  .swiper .swiper-slide 
+  { display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    font-weight: bold; } 
 </style>

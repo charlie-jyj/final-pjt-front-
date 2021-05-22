@@ -39,9 +39,9 @@ export default {
     SignupMovie
   },
   methods: {
-    ...mapActions(['getMovieSeries',]),
+    ...mapActions(['getMovieSurvey',]),
     completeMovieSurvey(){
-      this.getMovieSeries()
+      this.getMovieSurvey()
       this.$emit('complete-movie-survey')
     }
   },

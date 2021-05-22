@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import VueCookies from 'vue-cookies'
 import VueSplide from '@splidejs/vue-splide'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+
+Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 
 const apiKey = '1e3e37a933ea0198d7ea7ae1da0fa756'
 window.Kakao.init(apiKey)

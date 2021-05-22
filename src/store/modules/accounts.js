@@ -89,10 +89,10 @@ const actions = {
    // 영화를 평가한 데이터를 누적시킬 것
    context.commit('SAVE_MOVIE_RATE', data)
  },
- getMovieSeries(context){
+ getMovieSurvey(context){
   console.log(context)
-  // axios 로 accounts/profile/series/ 에 MovieSurvey와 함께 get 요청을 보낸다.
-  // response를 통해 어떤 시리즈를 선호하는지, 추천 영화 목록은 무엇인지 알게 될 것
+  // axios 로 series: 'accounts/profile/series/', patch 로 누적된 영화 평가 데이터를 
+  //body 에 담아서 보내면 질문 목록을 받을 것
   context.state.favorite = 1
 
   const questions = ['',
@@ -112,16 +112,11 @@ const actions = {
   '아이언맨',
   '블랙팬서',]
 
-  context.commit('SET_CHARACTER_SURVEY', questions)
+  context.commit('SET_CHARACTER_SURVEY', questions)  // 질문 내용을 state에 담아 사용한다.
 
-  const series = [
-    {pk: 1, title:'해리포터와 마법사의 돌', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 2, title:'해리포터와 비밀의 방', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 3, title:'해리포터와 아즈카반의 죄수', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 4, title:'해리포터와 불의 잔', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-    {pk: 5, title:'해리포터와 불사조 기사단', poster_path:'https://lh3.googleusercontent.com/proxy/i5U6vnPfbgrwy7U6MVnp8bDnT_PhljOKETE9L3wvuApNBdMow_tl7AGvxRYtbL1SrF0Mvaz_8Ae692t4Y3hXMf0MEQ1YRbFkr-KMJaXwUyuC7UQ7MeITo2nAS3XA-yqBLvtt9xG8oI4KYwxQG0pwKhZkrpOVoDNdcn-XMfBNANUkMbYZtv62Dc6WJcDmqi8cYPneCZZksbYIZmwCBRAVa1qW7t8wuP6zMA69EmKvI-JvvqYGAmEtYfcpaoTByXfuqataUVhtjddh01EQ2kLG5a8nwalYF-9ZnbUP5QY_ChLXTEfDKoKgsvdK5o0hz4AdjA771mqaPlTHjf02sD3JqrEBL9ldGcsQ'},
-   ]
-   context.dispatch('setMovieSeries', series)
+  // series: 'accounts/profile/series/', 로 get 요청을 보내면 영화 추천 목록을 받는다.\
+  // movies의 getMovieSeries action을 호출하여 일을 위임하자
+  context.dispatch('getMovieSeries')
 
  },
  setNickname(context, nickname){

@@ -1,17 +1,48 @@
 <template>
-  <div>
-    Movie Page
-    나는 여기에 영화 목록을 출력할거야
+  <div class="container">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <div class="movie-list-wrapper">
+          <div v-if="isAuthenticated" class="series-wrapper">
+            <p class="h4">추천 영화</p>
+            <SeriesMovieList/>
+          </div>
+          <div class="all-movies-wrapper">
+            <AllMovieList/>
+          </div>
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'MoviePage'
+import {mapActions, mapGetters} from 'vuex'
+import SeriesMovieList from '@/components/movies/SeriesMovieList.vue'
+import AllMovieList from '@/components/movies/AllMovieList.vue'
 
+export default {
+  name: 'MoviePage',
+  components: {
+    SeriesMovieList, AllMovieList
+  },
+  methods: {
+    ...mapActions(['getMovieSeries'])
+  },
+  created(){
+    this.getMovieSeries()
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.movie-list-wrapper {
+  margin-top: 8rem;
+}
 
 </style>
