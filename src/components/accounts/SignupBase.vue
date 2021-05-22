@@ -7,8 +7,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <SignupForm v-show="step1" @create-user="showMovieSurvey"/>
-            <SignupMovieList v-show="step2"/>
+            <SignupForm v-if="step1" @create-user="showMovieSurvey"/>
+            <SignupMovieList v-if="step2" @complete-movie-survey="showCharacterSurvey"/>
+            <SignupSurvey v-if="step3" @complete-all-survey="showResult"/>
+            <SignupResult v-if="step4"/>
           </div>
           <div class="modal-footer">
           </div>
@@ -20,6 +22,9 @@
 <script>
 import SignupForm from '@/components/accounts/SignupForm.vue'
 import SignupMovieList from '@/components/accounts/SignupMovieList.vue'
+import SignupSurvey from '@/components/accounts/SignupSurvey.vue'
+import SignupResult from '@/components/accounts/SignupResult.vue'
+import { mapActions} from 'vuex'
 
 export default {
   name: 'SignupBase',
@@ -27,17 +32,33 @@ export default {
     return {
       step1: true,
       step2: false,
+      step3: false,
+      step4: false,
     }
   },
   components: {
-    SignupForm, SignupMovieList
+    SignupForm, SignupMovieList, SignupSurvey, SignupResult
   },
   methods: {
     showMovieSurvey(){
       console.log('유저가 만들어졌다는 소문을 들었어')
       this.step1 = false
       this.step2 = true
+      this.getSignUpMovieList()
+    },
+    ...mapActions(['getSignUpMovieList']),
+    showCharacterSurvey(){
+      console.log('좋아하는 시리즈가 무엇인지 나는 알게되었어')
+      this.step2 = false
+      this.step3 = true
+    },
+    showResult(){
+      console.log('닉네임이 정해졌어')
+      this.step3 = false
+      this.step4 = true
     }
+  },
+  computed: {
   }
 }
 </script>
