@@ -7,7 +7,7 @@
           <div class="card result mt-3" style="width: 25em;">
             <div class="card-header">
               <div class="d-flex justify-content-between">
-                <p class="card-header-text">분석 결과 당신의 이름은,</p>
+                <p class="card-header-text">당신의 이름은,</p>
                 <div class="share d-flex align-items-start">
                   <button type="button" class="btn btn-share" data-bs-toggle="tooltip" data-bs-placement="top" title="카카오톡으로 공유">
                     <i class="fas fa-share-square share-icon"></i></button>
@@ -27,12 +27,11 @@
       <div class="col-2"> 
       </div>
     </div> 
-    <div class="row mt-5">
+    <div class="row series-wrapper">
       <div class="col-1"></div>
       <div class="col-10">
-        <div class="series-wrapper">
-          <MovieSlider/>
-        </div>
+        <p class="text-center series-title">"{{Nickname}}"가 봐야 할 영화 ({{MovieSeries.length}})</p>
+        <MovieSlider/>
       </div>
       <div class="col-1"></div>
     </div>
@@ -48,18 +47,24 @@ export default {
     MovieSlider,
   },
   computed: {
-    ...mapGetters(['Nickname',])
+    ...mapGetters(['Nickname', 'MovieSeries'])
   },
 }
 </script>
 
 <style scoped>
   .series-wrapper{
-    height: 30vh;
+    margin-top: 5rem;
     width: 100%;
     border-radius: 5px;
     box-shadow: 0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07);
     overflow: auto;
+  }
+
+  .series-title {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    color: white
   }
 
   .result {
