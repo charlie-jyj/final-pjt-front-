@@ -5,7 +5,9 @@ import store from './store'
 import VueCookies from 'vue-cookies'
 import VueSplide from '@splidejs/vue-splide'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import Autocomplete from '@trevoreyre/autocomplete-vue'
 
+Vue.use(Autocomplete)
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 
 const apiKey = '1e3e37a933ea0198d7ea7ae1da0fa756'

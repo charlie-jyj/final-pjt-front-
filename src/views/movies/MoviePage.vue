@@ -10,7 +10,7 @@
           </div>
           <div class="all-movies-wrapper">
             <p class="h4">우리의 영화</p>
-            
+            <MovieSearch/>
             <AllMovieList/>
           </div>
           <MovieDetail/>
@@ -26,11 +26,12 @@ import {mapActions, mapGetters} from 'vuex'
 import SeriesMovieList from '@/components/movies/SeriesMovieList.vue'
 import AllMovieList from '@/components/movies/AllMovieList.vue'
 import MovieDetail from '@/components/movies/MovieDetail.vue'
+import MovieSearch from '@/components/movies/MovieSearch.vue'
 
 export default {
   name: 'MoviePage',
   components: {
-    SeriesMovieList, AllMovieList, MovieDetail
+    SeriesMovieList, AllMovieList, MovieDetail, MovieSearch
   },
   methods: {
     ...mapActions(['getMovieSeries', 'getAllMovies'])
@@ -46,12 +47,12 @@ export default {
 </script>
 
 <style scoped>
-.movie-list-wrapper {
-  margin-top: 8rem;
-}
+  .movie-list-wrapper {
+    margin-top: 8rem;
+  }
 
-.all-movies-wrapper {
-  margin-top: 8rem;
-}
+  .all-movies-wrapper {
+    margin-top: 8rem;
+  }
 
 </style>

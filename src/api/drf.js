@@ -6,8 +6,19 @@ export default {
     detail(pk){
       return `movies/${pk}/`
     },
+    rate(pk){
+      return `accounts/${pk}/rated_movie/`
+    },
+    like: 'accounts/<int:movie_pk>/movie_to_see/',
+    auto(keyword){
+      return `movies/auto/${keyword}/`
+    },
+    search(keyword){
+      return `movies/serach/${keyword}/`
+    },
     series: 'accounts/profile/series/',
     nickname: 'accounts/profile/character/',
-    login: 'rest-auth/login/'
+    login: 'rest-auth/login/',
+   
   }
 }

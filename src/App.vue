@@ -21,10 +21,10 @@
               <router-link class="nav-link" :to="{name:'ProfilePage'}">Profile</router-link>
             </li> 
           </ul>
-          <form class="d-flex">
+          <!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-search" type="button">Search</button>
-          </form>
+          </form> -->
         </div>
       </div>
     </nav>
