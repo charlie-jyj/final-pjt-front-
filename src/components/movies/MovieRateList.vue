@@ -1,15 +1,26 @@
 <template>
-  <div>
-    나는 무비 디테일 안에 있는 영화 평점 
+  <div class="container movie-rate-list">
+    <MovieRate v-for="(rate, index) in MovieDetailRates" :key="index" :rate="rate"/>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import MovieRate from '@/components/movies/MovieRate.vue'
 export default {
-  name: 'MovieRateList'
+  name: 'MovieRateList',
+  components: {
+    MovieRate,
+  },
+  computed: {
+    ...mapGetters(['MovieDetailRates'])
+  }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .movie-rate-list{
+    height: 45vh;
+    overflow: auto;
+  }
 </style>

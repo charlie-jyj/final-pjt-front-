@@ -6,6 +6,7 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
+    <button type="button" id="showDetailButton" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#movieDetailModal"></button>
   </div>
 </template>
 
@@ -52,7 +53,13 @@
       showMovieDetail(index){
         //Movie 객체 자체를 넘겨버리면.. Detail 에서 보여줄 수 있겠지요
         console.log(this.MovieSeries[index])
-      }
+        this.$store.dispatch('showMovieDetail', this.MovieSeries[index])
+        this.openDetailModal()
+      },
+      openDetailModal(){
+      const detailBtn = document.querySelector('#showDetailButton')
+      detailBtn.click()
+    }
     }
   }
 </script>

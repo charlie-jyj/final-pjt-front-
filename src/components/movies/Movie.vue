@@ -1,20 +1,38 @@
 <template>
   <div class="col item">
-    <div class="box" :style="`background-image:url(${movie.fields.poster_path})`">
+    <div @click="showMovieDetail" class="box" :style="`background-image:url(${movie.fields.poster_path})`"> <!--movie.poster_path-->
       <div class="cover">
-          <p class="name">{{movie.fields.title}}</p>
-          <p class="title">{{movie.fields.title}}</p>
+          <p class="name">{{movie.fields.title}}</p>   <!--movie.title-->
+          <p class="title">{{movie.fields.title}}</p>  <!--movie.series.name-->
           <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
       </div>
     </div>
+    <button type="button" id="showDetailBtn" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#movieDetailModal"></button>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'Movie',
   props: {
     movie: Object
+  },
+  components: {   
+  },
+  methods: {
+    showMovieDetail(){
+      this.$store.dispatch('showMovieDetail', this.movie)
+      this.openDetailModal()
+    },
+    openDetailModal(){
+      const detailBtn = document.querySelector('#showDetailBtn')
+      detailBtn.click()
+    }
+  },
+  computed: {
+    ...mapGetters(['MovieDetail',])
   }
 }
 </script>

@@ -10,8 +10,10 @@
           </div>
           <div class="all-movies-wrapper">
             <p class="h4">우리의 영화</p>
+            
             <AllMovieList/>
           </div>
+          <MovieDetail/>
         </div>
       </div>
       <div class="col-1"></div>
@@ -23,11 +25,12 @@
 import {mapActions, mapGetters} from 'vuex'
 import SeriesMovieList from '@/components/movies/SeriesMovieList.vue'
 import AllMovieList from '@/components/movies/AllMovieList.vue'
+import MovieDetail from '@/components/movies/MovieDetail.vue'
 
 export default {
   name: 'MoviePage',
   components: {
-    SeriesMovieList, AllMovieList
+    SeriesMovieList, AllMovieList, MovieDetail
   },
   methods: {
     ...mapActions(['getMovieSeries', 'getAllMovies'])
@@ -37,7 +40,7 @@ export default {
     this.getAllMovies()
   },
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated',])
   }
 }
 </script>

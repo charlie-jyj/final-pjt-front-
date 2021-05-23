@@ -17,7 +17,8 @@ export default {
   },
   computed: {
     ...mapGetters(['AllMovies'])
-  }
+  },
+
 }
 </script>
 
