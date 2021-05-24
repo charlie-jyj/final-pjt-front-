@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Movie Detail</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="detailClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <!--영화 관련 정보들 서버 연결 후에 attribute 다 갈아끼워야 해~ 잊지말기-->
@@ -101,6 +101,7 @@
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-write" @click="goToReview">리뷰쓰기</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -157,6 +158,11 @@ export default {
       } else {
         alert('로그인이 필요한 서비스입니다.')
       }
+    },
+    goToReview(){
+      const detailClose = document.querySelector('#detailClose')
+      detailClose.click()
+      this.$store.dispatch('goToReview', this.MovieDetail)
     }
   },
   mounted(){
@@ -167,7 +173,7 @@ export default {
     // rating 0 초기화
     this.before = this.current
     this.current = this.MovieDetail.pk  // id로 바꿔야 함
-    console.log(this.before, this.current)
+    console.log('이전영화, 현재영화',this.before, this.current)
     if (this.before !== this.current){
       this.showRateForm = false
       this.rating = 0
@@ -325,5 +331,16 @@ export default {
   .movie-img-background .movie-img .movie-title .movie-title-detail {
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
+  }
+
+  .btn-write {
+    background-color: #F2D64B;
+    color: #68788C;
+  }
+
+  .btn-write:hover {
+    background-color: #F2EEB3;
+    color: #68788C;
+    border: 1px solid #68788C ;
   }
 </style>

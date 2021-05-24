@@ -82,7 +82,7 @@ const actions = {
     console.log(context, movie)
     context.commit('SET_MOVIE_DETAIL', movie)
 
-    // 다른 사람들의 rates를 get 해오는 url 은 아직 모르겠다.
+    // 다른 사람들의 rates (detail에 포함될 것)
     const rates = [
       {user:{pk:1,username:'유진', nickname:'유진'}, rate:4, comment:'재미있어요'},
       {user:{pk:2,username:'재명', nickname:'재명'}, rate:1, comment:'별론데요'},
@@ -90,14 +90,23 @@ const actions = {
     ]
 
     context.commit('SET_DETAIL_RATES', rates)
+
+    // like를 판별하여 여기서 set 하자 
+    const movie_to_see = context.getters.MovieToSee
+    const like = movie_to_see.some(item=>{
+      return item.id == movie.pk
+    })
+    context.commit('SET_MOVIE_LIKE', like)
     
   },
   createMovieRate(context, data){
     //axios accounts/<int:movie_pk>/rated_movie/ (post) (login)
+    // 평가 작성 후 새로운 영화 평가 목록을 불러와야 할 것 ****
     console.log(context, data)
   },
   likeMovie(context){
     // accounts/<int:movie_pk>/movie_to_see/ (post) (login)
+    // response 로 오는 t/f 값을 갱신
     console.log('이 영화 좋아요',context)
     const like = true
     context.commit('SET_MOVIE_LIKE', like)

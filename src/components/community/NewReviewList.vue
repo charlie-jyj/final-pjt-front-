@@ -1,12 +1,21 @@
 <template>
-  <div>
-    최신글이 위에 올라오게 정렬된 리뷰들이 보일거야
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5">
+    <Review v-for="(review, index) in Reviews" :key="index" :review="review"/>
   </div>
+</div>
 </template>
 
 <script>
+import Review from '@/components/community/Review.vue'
+import {mapGetters} from 'vuex'
+
 export default {
-  name: 'NewReviewList'
+  name: 'NewReviewList',
+  components: {Review},
+  computed: {
+    ...mapGetters(['Reviews'])
+  }
 }
 </script>
 

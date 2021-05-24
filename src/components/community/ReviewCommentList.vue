@@ -1,12 +1,17 @@
 <template>
-  <div>
-    나는 리뷰 디테일 안의 코멘트 리스트야
+  <div class="border-top pt-3">
+    <ReviewComment v-for="(comment, index) in comments" :key="index" :comment="comment"/>
   </div>
 </template>
 
 <script>
+import ReviewComment from '@/components/community/ReviewComment'
 export default {
-  name: 'ReviewCommentList'
+  name: 'ReviewCommentList',
+  components: {ReviewComment},
+  props: {
+    comments: Array,
+  }
 }
 </script>
 

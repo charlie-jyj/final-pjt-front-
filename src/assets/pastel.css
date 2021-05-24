@@ -1,0 +1,42 @@
+/* Color Theme Swatches in Hex */
+.Sky-with-a-pastel-colored-gradient-1-hex { color: #F2BDD6; }
+.Sky-with-a-pastel-colored-gradient-2-hex { color: #F2C9DC; }
+.Sky-with-a-pastel-colored-gradient-3-hex { color: #B0C6D9; }
+.Sky-with-a-pastel-colored-gradient-4-hex { color: #BBE2F2; }
+.Sky-with-a-pastel-colored-gradient-5-hex { color: #F2E0DC; }
+
+/* Color Theme Swatches in RGBA */
+.Sky-with-a-pastel-colored-gradient-1-rgba { color: rgba(242, 188, 213, 1); }
+.Sky-with-a-pastel-colored-gradient-2-rgba { color: rgba(242, 201, 220, 1); }
+.Sky-with-a-pastel-colored-gradient-3-rgba { color: rgba(175, 197, 216, 1); }
+.Sky-with-a-pastel-colored-gradient-4-rgba { color: rgba(186, 226, 242, 1); }
+.Sky-with-a-pastel-colored-gradient-5-rgba { color: rgba(242, 224, 220, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Sky-with-a-pastel-colored-gradient-1-hsla { color: hsla(331, 67, 84, 1); }
+.Sky-with-a-pastel-colored-gradient-2-hsla { color: hsla(331, 61, 86, 1); }
+.Sky-with-a-pastel-colored-gradient-3-hsla { color: hsla(208, 34, 76, 1); }
+.Sky-with-a-pastel-colored-gradient-4-hsla { color: hsla(196, 68, 84, 1); }
+.Sky-with-a-pastel-colored-gradient-5-hsla { color: hsla(11, 46, 90, 1); }
+
+
+/* Color Theme Swatches in Hex */
+.sky-1-hex { color: #F2AEC1; }
+.sky-2-hex { color: #F2CED8; }
+.sky-3-hex { color: #96D9D2; }
+.sky-4-hex { color: #C4F2D4; }
+.sky-5-hex { color: #F2EDD0; }
+
+/* Color Theme Swatches in RGBA */
+.sky-1-rgba { color: rgba(242, 174, 192, 1); }
+.sky-2-rgba { color: rgba(242, 205, 215, 1); }
+.sky-3-rgba { color: rgba(149, 216, 210, 1); }
+.sky-4-rgba { color: rgba(196, 242, 212, 1); }
+.sky-5-rgba { color: rgba(242, 236, 208, 1); }
+
+/* Color Theme Swatches in HSLA */
+.sky-1-hsla { color: hsla(343, 72, 81, 1); }
+.sky-2-hsla { color: hsla(343, 58, 87, 1); }
+.sky-3-hsla { color: hsla(174, 46, 71, 1); }
+.sky-4-hsla { color: hsla(140, 64, 85, 1); }
+.sky-5-hsla { color: hsla(50, 57, 88, 1); }

@@ -8,7 +8,8 @@ const state = {
  MovieSurvey: [],
  favorite: 0,
  characterSurvey: [],
- nickname: '',
+ nickname: '유진',
+ movieToSee : [{id:1},{id:2}],
 }
 
 const getters = {
@@ -23,6 +24,9 @@ const getters = {
  },
  Nickname(state){
    return state.nickname
+ },
+ MovieToSee(state){
+   return state.movieToSee
  }
 }
 
@@ -31,7 +35,7 @@ const mutations = {
    state.token = token
  },
  SAVE_MOVIE_RATE(state,data){
-   // 저장 전에 별점을 변경했는지 확인해봐야
+   // 기존에 평가했던 항목이라면 update 처리한다
    const old = state.MovieSurvey
    let flag = true
    old.map(item => {
@@ -55,7 +59,7 @@ const mutations = {
 const actions = {
  createUser(context, signupInfo) {
   console.log(context, signupInfo)
-  // axios 로 통신해서 auth/registration/ 로 username, password1, password2 보낼 것 
+  // 1. axios 로 통신해서 auth/registration/ 로 username, password1, password2 보낼 것 
   // response로 key 발급받으면 일단 cookie에 저장해둔다
   const token = '12345'
   context.commit('SET_TOKEN', token)
@@ -68,7 +72,7 @@ const actions = {
  },
  getMovieSurvey(context){
   console.log(context)
-  // axios 로 series: 'accounts/profile/series/', patch 로 누적된 영화 평가 데이터를 
+  // 2. axios 로 series: 'accounts/profile/series/', (patch) 로 누적된 영화 평가 데이터를 
   //body 에 담아서 보내면 질문 목록을 받을 것
   context.state.favorite = 1
 
@@ -96,17 +100,24 @@ const actions = {
   context.dispatch('getMovieSeries')
 
  },
- setNickname(context, nickname){
+ setNickname(context, data){
   // axios 로 결정된 nickname을 전달한다.accounts/profile/character/
-  context.commit('SET_NICKNAME', nickname)
+  // request nickname, image url 보내야 **** 중요중요
+  context.commit('SET_NICKNAME', data.nickname)
  },
+
+
  login(context, loginInfo){
   console.log(context, loginInfo)
    // axios 로 login rest-auth/login/ username, password 전달
    // response 로 jwt token 이 날아올테니 저장하자
   const token = '12345'
   context.commit('SET_TOKEN', token)
+  context.commit('SET_NICKNAME', '유진') // username도 저장해두자 두고두고 쓸 것
   cookies.set('user-token', '12345', '1d')
+
+  // 이 시점에 accounts/profile/ (get) 하면 내가 찜한 영화를 알 수 있을 것
+  // context.commit('MOVIE_TO_SEE', movie_to_see)
 
   router.push({name:'MoviePage'})
  }

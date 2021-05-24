@@ -65,7 +65,13 @@ export default {
         '욕심 많은',
         '화를 참지 못하는',
         '꿈이 큰',
-        '수줍은',]
+        '수줍은',
+        '섬세한',
+        '채식주의자',
+        '육식주의자',
+        '잠이 많은',
+        '건강한'
+        ]
     }
   },
   methods: {
@@ -82,7 +88,12 @@ export default {
         const final = answer === 'true'? this.current*2 + 1 : this.current*2
         const nickname = adjective+' '+this.CharacterSurvey[final]
         
-        this.$store.dispatch('setNickname', nickname)
+        const data = {
+          nickname,
+          user_img: 'http://img-url.com' // 나중에 수정
+        }
+
+        this.$store.dispatch('setNickname', data)
         this.current = 1 // 초기화
         this.round = 1
 
