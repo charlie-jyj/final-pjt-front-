@@ -28,11 +28,11 @@
           </div>
           <div class="review-comment-list mt-5">
             <p>코멘트({{ReviewDetail.comments.length}})</p>
-            <ReviewCommentList :comments="ReviewDetail.comments"/>
+            <ReviewCommentList :review_pk="ReviewDetail.id" :comments="ReviewDetail.comments"/>
           </div>
           <div class="review-comment-form mt-5">
             <p>코멘트 작성</p>
-            <ReviewCommentUpdateForm v-if="IsCommentUpdateReady"/>
+            <ReviewCommentUpdateForm v-if="IsCommentUpdateReady" :review_pk="ReviewDetail.id"/>
             <ReviewCommentForm v-else :review_pk="ReviewDetail.id"/>
           </div>
 

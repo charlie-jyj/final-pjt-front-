@@ -212,10 +212,24 @@ const actions = {
     context.dispatch('getReviewDetail', data.review_pk)
   },
   setCommentUpdateForm(context, comment){
-    console.log('댓글수정', context, comment)
+    console.log('댓글수정준비', context, comment)
     context.commit('SET_COMMENT_UPDATE_FORM', comment)
 
-    // 수정 후 update 상태 state 갱신
+  },
+  updateReviewComment(context, data){
+    console.log('댓글 수정!', context, data)
+    // community/<int:review_pk>/comment/<int:comment_pk> (put) 
+
+    // 수정 후 detail 갱신하고 update 상태값 변경
+    context.commit('SET_COMMENT_UPDATE_FORM', {})
+    context.dispatch('getReviewDetail', data.review_pk)
+  },
+  deleteReviewComment(context, data){
+    console.log('댓글 삭제!', context, data)
+    // community/<int:review_pk>/comment/<int:comment_pk> (delete)
+
+    // 삭제 후 detail 갱신
+    context.dispatch('getReviewDetail', data.review_pk)
   }
 }
 

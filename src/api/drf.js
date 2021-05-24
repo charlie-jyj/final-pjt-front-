@@ -36,6 +36,9 @@ export default {
     },
     comment(pk){
       return `community/${pk}/comment/`
+    },
+    commentUpdateDelete(review_pk, comment_pk){
+      return `community/${review_pk}/comment/${comment_pk}`
     }
    
   }

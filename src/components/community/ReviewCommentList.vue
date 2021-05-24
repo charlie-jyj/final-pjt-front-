@@ -1,6 +1,6 @@
 <template>
   <div class="border-top pt-3">
-    <ReviewComment v-for="(comment, index) in comments" :key="index" :comment="comment"/>
+    <ReviewComment v-for="(comment, index) in comments" :key="index" :comment="comment" :review_pk="review_pk"/>
   </div>
 </template>
 
@@ -11,6 +11,7 @@ export default {
   components: {ReviewComment},
   props: {
     comments: Array,
+    review_pk:Number,
   }
 }
 </script>

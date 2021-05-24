@@ -6,7 +6,7 @@
       </div>
       <div v-show="comment.user.username === Nickname" class="buttons">
         <button @click="setCommentUpdateForm(comment)" class="btn btn-sm btn-outline-light"><i class="far fa-edit"></i></button>
-        <button class="btn btn-sm btn-outline-light"><i class="far fa-trash-alt"></i></button>
+        <button @click="deleteReviewComment" class="btn btn-sm btn-outline-light"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <div class="comment-body mt-2 mb-2">
@@ -21,12 +21,21 @@ export default {
   name: 'ReviewComment',
   props: {
     comment: Object,
+    review_pk:Number,
   },
   computed: {
     ...mapGetters(['Nickname'])
   },
   methods: {
-    ...mapActions(['setCommentUpdateForm'])
+    ...mapActions(['setCommentUpdateForm']),
+    deleteReviewComment(){
+      const data = {
+        review_pk : this.review_pk,
+        comment_pk : this.comment.id
+      }
+
+      this.$store.dispatch('deleteReviewComment', data)
+    }
   }
 }
 </script>

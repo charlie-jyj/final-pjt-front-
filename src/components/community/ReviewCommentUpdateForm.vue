@@ -5,7 +5,7 @@
         <textarea v-model="content" class="form-control" rows="3"></textarea>
       </div>
       <div class="col-2 d-flex align-items-stretch">
-        <button class="btn btn-write">submit</button>
+        <button @click="updateReviewComment" class="btn btn-write">submit</button>
       </div>
     </div>
 
@@ -16,16 +16,32 @@
 import {mapGetters} from 'vuex'
 export default {
   name:'ReviewCommentUpdateForm',
+  props: {
+    review_pk:Number,
+  },
   data(){
     return {
-      content: '',
+      content: '!@#$',
     }
   },
   computed: {
     ...mapGetters(['CommentUpdate'])
   },
-  updated(){
-    console.log('관심좀')
+  mounted(){
+    if(this.content === '!@#$'){
+      this.content = this.CommentUpdate.content
+    }
+  },
+  methods: {
+    updateReviewComment(){
+      const data = {
+        review_pk: this.review_pk,
+        comment_pk: this.CommentUpdate.id, // comment 자체이기 때문에
+        content: this.content
+      }
+
+      this.$store.dispatch('updateReviewComment', data)
+    }
   }
 }
 </script>
