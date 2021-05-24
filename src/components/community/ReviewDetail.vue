@@ -12,7 +12,7 @@
           <div class="reivew-header mb-3 d-flex flex-row justify-content-between">
             <div class="review-writer d-flex align-items-center">
             <i class="fas fa-crown me-3" style="color:#F2D64B"></i>
-            <span>{{ReviewDetail.user.username}}</span>
+            <span>{{ReviewDetail.user.nickname}}</span>
             </div>
             <div class="review-like d-flex">
               <button @click="likeReview(ReviewDetail.id)" v-if="ReviewLike" class="btn"><i class="fas fa-heart" style="color:#F2D64B"></i></button>
@@ -38,7 +38,7 @@
 
         </div>
       </div>
-      <div v-if="ReviewDetail.user.username === Nickname"  class="modal-footer">
+      <div v-if="ReviewDetail.user.nickname === Nickname"  class="modal-footer">
         <button id="reviewUpdateFormOpen" class="btn btn-write d-none" data-bs-toggle="modal" data-bs-target="#reviewUpdateFormModal"></button>
         <button @click="updateReview" type="button" class="btn btn-light">수정</button>
         <button @click="deleteReview" type="button" class="btn btn-secondary">삭제</button>

@@ -127,7 +127,7 @@ const actions = {
     const review = {
       user: {
         id:1,
-        username: '유진',
+        nickname: '유진',
       },
       id:1,
       title: '리뷰1',
@@ -145,7 +145,7 @@ const actions = {
           content: '댓글1',
           user: {
             id:2,
-            username: '재명',
+            nickname: '재명',
           },  
         },
         {
@@ -153,7 +153,7 @@ const actions = {
           content: '댓글2',
           user: {
             id:2,
-            username: '유진',
+            nickname: '유진',
           },  
         },
         {
@@ -161,7 +161,7 @@ const actions = {
           content: '댓글3',
           user: {
             id:2,
-            username: '재명',
+            nickname: '재명',
           },  
         }
       ]

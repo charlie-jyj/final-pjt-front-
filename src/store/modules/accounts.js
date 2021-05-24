@@ -10,6 +10,8 @@ const state = {
  characterSurvey: [],
  nickname: '유진',
  movieToSee : [{id:1},{id:2}],
+ username:'',
+ userImg: '',
 }
 
 const getters = {
@@ -27,7 +29,14 @@ const getters = {
  },
  MovieToSee(state){
    return state.movieToSee
+ },
+ Username(state){
+   return state.username
+ },
+ UserImg(state){
+   return state.userImg
  }
+
 }
 
 const mutations = {
@@ -53,6 +62,12 @@ const mutations = {
  },
  SET_NICKNAME(state, nickname){
    state.nickname = nickname
+ },
+ SET_USERNAME(state, username){
+   state.username = username
+ },
+ SET_USER_IMG(state,img){
+  state.userImg = img
  }
 }
 
@@ -113,13 +128,20 @@ const actions = {
    // response 로 jwt token 이 날아올테니 저장하자
   const token = '12345'
   context.commit('SET_TOKEN', token)
-  context.commit('SET_NICKNAME', '유진') // username도 저장해두자 두고두고 쓸 것
   cookies.set('user-token', '12345', '1d')
 
-  // 이 시점에 accounts/profile/ (get) 하면 내가 찜한 영화를 알 수 있을 것
-  // context.commit('MOVIE_TO_SEE', movie_to_see)
-
+  context.dispatch('getProfile')
+  
   router.push({name:'MoviePage'})
+ },
+ getProfile(context){
+  // 이 시점에 accounts/profile/ (get) 하면 
+  // id, username, nickname, user_img, movie_to_see, rated_movies
+  // context.commit('SET_MOVIE_TO_SEE', movie_to_see)
+  // context.commit('SET_RATED_MOVIES', rated_movies)
+  context.commit('SET_NICKNAME', '유진') // nickname도 저장해두자 두고두고 쓸 것
+  context.commit('SET_USERNAME', 'jtree20@naver.com') // username
+  context.commit('SET_USER_IMG', 'https://images.indianexpress.com/2019/04/cat_759getty.jpg') // user img
  }
 }
 
