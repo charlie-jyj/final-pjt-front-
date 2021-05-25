@@ -4,12 +4,18 @@
 
       <div  class="card mt-3" style="width: 10rem;">
         <div class="card-body" style="height: 12rem;">
-          <div class="review-like d-flex justify-content-end mb-3">
+          <div class="review-like d-flex justify-content-between mb-3">
+            <div>
+            <p class="updated_at">{{ review.updated_at.slice(0, 10) }}</p>
+            </div>
+            <div>
             <i class="fas fa-heart" style="color:orange;"></i><span>{{review.user_like_count}}</span>
+            </div>
           </div>
           <p class="card-title">{{review.title}}</p>
-          <p v-if="!!Object.keys(review.movie).length" class="ref">#{{review.movie.title}}</p>
+          <p v-if="review.movie&&!!Object.keys(review.movie).length" class="ref">#{{review.movie.title}}</p>
           <p v-else class="ref">#잡담</p>
+
         </div>
       </div>
 
@@ -54,6 +60,8 @@ export default {
 </script>
 
 <style scoped>
+
+.updated_at{font-size: 0.5rem;}
 
 .color1 { background-color: #F2BDD6; }
 .color2 { background-color: #F2C9DC; }

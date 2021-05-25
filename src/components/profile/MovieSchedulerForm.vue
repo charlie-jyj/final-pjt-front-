@@ -39,7 +39,7 @@ export default {
   name: 'MovieSchedulerForm',
   methods: {
     getMovieSchedule(){
-      const series = document.querySelector('#seriesSelect').value
+      const series = parseInt(document.querySelector('#seriesSelect').value)
 
       const dateInput = document.querySelectorAll('input[name=date]')
       const dates = []

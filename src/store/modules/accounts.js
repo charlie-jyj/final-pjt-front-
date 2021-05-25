@@ -7,11 +7,12 @@ const state = {
  token: cookies.get('user-token'),
  MovieSurvey: [],
  characterSurvey: [],
- nickname: '',
+ nickname: cookies.get('nickname'),
  movieToSee : [],
  username:'',
  userImg: '',
  movieSchedule: [],
+ ratedMovies: [],
 }
 
 const getters = {
@@ -79,6 +80,12 @@ const mutations = {
  },
  SET_MOVIE_SCHEDULE(state, schedule){
    state.movieSchedule = schedule
+ },
+ SET_MOVIE_TO_SEE(state, movieToSee){
+   state.movieToSee = movieToSee
+ },
+ SET_RATED_MOVIES(state, ratedMovies){
+   state.ratedMovies = ratedMovies
  }
 }
 
@@ -86,7 +93,7 @@ const actions = {
  createUser(context, signupInfo) {
   axios({
     method: 'post',
-    url: DRF.URL + DRF.signup,
+    url: DRF.URL + DRF.ROUTES.signup,
     data: signupInfo
   })
     .then(res => {
@@ -94,6 +101,11 @@ const actions = {
       const token = res.data.token
       context.commit('SET_TOKEN', token)
       cookies.set('user-token', token, '1d')
+      return res.data
+    })
+    .then(data => {
+      console.log(data)
+      context.dispatch('getAllMovies')
     })
     .catch(err => console.log(err))
 
@@ -106,7 +118,7 @@ const actions = {
  getMovieSurvey(context){
   axios({
     method: 'patch',
-    url: DRF.URL + DRF.series,
+    url: DRF.URL + DRF.ROUTES.series,
     headers: context.getters.config,
     data: context.getters.MovieSurvey,
   })
@@ -122,20 +134,22 @@ const actions = {
  setNickname(context, data){
   axios({
     method: 'patch',
-    url: DRF.URL + DRF.nickname,
+    url: DRF.URL + DRF.ROUTES.nickname,
     headers: context.getters.config,
     data,
   })
     .then(res => {
       console.log(res)
       context.commit('SET_NICKNAME', data.nickname)
+      context.commit('SET_USER_IMG', data.user_img)
+      cookies.set('nickname', data.nickname, '1d')
     })
     .catch(err => console.log(err))
  },
  login(context, loginInfo){
    axios({
      method: 'post',
-     url: DRF.URL + DRF.login,
+     url: DRF.URL + DRF.ROUTES.login,
      data: loginInfo,
    })
     .then(res => {
@@ -154,11 +168,12 @@ const actions = {
  getProfile(context){
   axios({
     method: 'get',
-    url: DRF.URL + DRF.profile,
+    url: DRF.URL + DRF.ROUTES.profile,
     headers: context.getters.config,
   })
     .then(res => {
       console.log('get profile:', res.data)
+      console.log(res.data.movie_to_see)
       context.commit('SET_MOVIE_TO_SEE', res.data.movie_to_see)
       context.commit('SET_RATED_MOVIES', res.data.rated_movies)
       context.commit('SET_NICKNAME', res.data.nickname) // nickname
@@ -170,11 +185,15 @@ const actions = {
  getMovieSchedule(context, data){
    // accounts/profile/schedule/ (get)
    // data를 body에 담아서 request
+   console.log('schedule', data)
    axios({
      method: 'get',
-     url: DRF.URL + DRF.schedule,
+     url: DRF.URL + DRF.ROUTES.schedule,
      headers: context.getters.config,
-     data,
+     params: {
+      'series': data.series,
+      'times': data.times,
+     },
    })
     .then(res => {
       console.log('schedule res', res.data)
@@ -195,6 +214,18 @@ const actions = {
       context.commit('SET_MOVIE_SCHEDULE', schedule)
     })
     .catch(err => console.log(err))
+ },
+ logout(context){
+   axios({
+     method: 'post',
+     url: DRF.URL + DRF.ROUTES.logout,
+     headers: context.getters.config,
+   })
+    .then(res => {
+      console.log('로그아웃',res.data)
+      cookies.remove('user-token')
+      cookies.remove('nickname')
+    })
  }
 }
 

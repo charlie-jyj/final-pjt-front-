@@ -56,6 +56,8 @@
       showMovieDetail(index){
         //Movie 객체 자체를 넘겨버리면.. Detail 에서 보여줄 수 있겠지요
         console.log(this.MovieSeries[index])
+        const signUpModalClose = document.querySelector('#signUpModalClose')
+        signUpModalClose.click()
         this.$router.push({name:'MoviePage'})
       }
     }

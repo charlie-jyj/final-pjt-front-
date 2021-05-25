@@ -11,6 +11,7 @@ const state = {
   rates: [],
   like: true,
   autoComplete:[],
+  step2Ready: false,
 }
 
 const getters = {
@@ -19,6 +20,9 @@ const getters = {
  },
  AllMovies(state) {
    return state.all
+ },
+ Step2Ready(state){
+  return state.step2Ready
  },
  MovieDetail(state){
    return state.detail
@@ -55,6 +59,9 @@ const mutations = {
  },
  AUTO_COMPLETE(state, autoComplete){
    state.autoComplete = autoComplete
+ },
+ SET_STEP2(state, bool){
+   state.step2Ready=bool
  }
 }
 const actions = {
@@ -64,22 +71,26 @@ const actions = {
   getMovieSeries(context){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.series,
+      url: DRF.URL + DRF.ROUTES.series,
       headers: context.getters.config,
     })
       .then(res => {
         console.log('get 시리즈,', res.data)     
         const series = res.data
         context.commit('SET_MOVIE_SERIES', series)
+        return res.data
       })
       .catch(err => console.log(err))
+  },
+  setStep2(context, bool){
+    context.commit('SET_STEP2', bool)
   },
   getAllMovies(context){
     console.log(context)
 
     axios({
       method: 'get',
-      url: DRF.URL + DRF.allMovies,
+      url: DRF.URL + DRF.ROUTES.allMovies,
       headers: context.getters.config,
     })
       .then(res => {
@@ -87,13 +98,17 @@ const actions = {
         const all = res.data
         context.commit('SET_ALL_MOVIES', all)
       })
+      .then(data => {
+        console.log(data)
+        context.dispatch('setStep2', true)
+      })
       .catch(err => console.log(err))    
   },
   showMovieDetail(context, movie){
     const movie_pk = movie.id
     axios({
       method: 'get',
-      url: DRF.URL + DRF.movieDetail(movie_pk),
+      url: DRF.URL + DRF.ROUTES.movieDetail(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -106,26 +121,30 @@ const actions = {
         context.commit('SET_DETAIL_RATES', rates)
 
         // like를 판별하여 여기서 set 하자 
+        context.dispatch('getProfile')
         const movie_to_see = context.getters.MovieToSee
+        console.log('찜',movie_to_see)
         const like = movie_to_see.some(item=>{
           return item.id === movieDetail.id
         })
+        console.log(like)
         context.commit('SET_MOVIE_LIKE', like)
       })
       .catch(err => console.log(err))
   },
   createMovieRate(context, pack){
+    console.log(DRF.URL + DRF.ROUTES.rate(pack.movie_pk),)
     axios({
       method: 'post',
-      url: DRF.URL + DRF.rate(pack.movie_pk),
+      url: DRF.URL + DRF.ROUTES.rate(pack.movie_pk),
       headers: context.getters.config,
       data: pack.data,
     })
       .then(res => {
-        console.log('comment delete', res.data)
+        console.log('comment create', res.data)
       
         // 평가 작성 후 showMovieDetail
-        context.dispatch('showMovieDetail')
+        context.dispatch('showMovieDetail', {id:pack.movie_pk})
       })
       .catch(err => console.log(err))
   },
@@ -133,13 +152,13 @@ const actions = {
     console.log(context, movie_pk)
     axios({
       method: 'delete',
-      url: DRF.URL + DRF.rate(movie_pk),
+      url: DRF.URL + DRF.ROUTES.rate(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('comment delete', res.data)   
         // 평가 삭제 후 showMovieDetail
-        context.dispatch('showMovieDetail')
+        context.dispatch('showMovieDetail', {id:movie_pk})
       })
       .catch(err => console.log(err))
   },
@@ -147,7 +166,7 @@ const actions = {
     // accounts/<int:movie_pk>/movie_to_see/ (post) (login)
     axios({
       method: 'post',
-      url: DRF.URL + DRF.movieLike(movie_pk),
+      url: DRF.URL + DRF.ROUTES.movieLike(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -160,7 +179,7 @@ const actions = {
   autoComplete(context, input){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.search(input),
+      url: DRF.URL + DRF.ROUTES.search(input),
       headers: context.getters.config,
     })
       .then(res => {
@@ -173,10 +192,10 @@ const actions = {
       .catch(err => console.log(err))
   },
   searchMovie(context, search){
-    console.log(context, search)
+    console.log(context, search,DRF.URL + DRF.ROUTES.search(search) )
     axios({
       method: 'get',
-      url: DRF.URL + DRF.search(search),
+      url: DRF.URL + DRF.ROUTES.search(search),
       headers: context.getters.config,
     })
       .then(res => {

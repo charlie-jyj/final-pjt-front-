@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     deleteRate(){
-      const movie_pk = this.MovieDetail.id // 나중에 axios 할 때 수정
+      const movie_pk = this.MovieDetail.movie.id // 나중에 axios 할 때 수정
       this.$store.dispatch('deleteMovieRate', movie_pk)
     },
   }

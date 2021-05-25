@@ -6,6 +6,7 @@
     aria-label="영화 제목을 검색해보세요"
     @submit="handleSubmit"
   ></autocomplete>
+  <div class="d-none">{{AutoCompleteList}}</div>
   </div>
 </template>
 
@@ -25,7 +26,7 @@ export default {
     Autocomplete
   },
   computed: {
-    ...mapGetters(['AutoCompleteList'])
+    ...mapGetters(['AutoCompleteList']),
   },
   methods: {
     search(input) {
@@ -47,7 +48,7 @@ export default {
        // 이 영역은 enter가 일어났을 때 발동된다
       const search = result? result : this.input
       this.$store.dispatch('searchMovie', search)
-    }
+    },
   }
 }
 </script>

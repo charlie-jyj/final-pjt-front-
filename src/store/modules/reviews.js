@@ -87,7 +87,7 @@ const actions = {
   getAllReviews(context){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.reviews,
+      url: DRF.URL + DRF.ROUTES.reviews,
       headers: context.getters.config,
     })
       .then(res => {
@@ -100,7 +100,7 @@ const actions = {
   getTop5(context){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.top5,
+      url: DRF.URL + DRF.ROUTES.top5,
       headers: context.getters.config,
     })
       .then(res => {
@@ -117,7 +117,7 @@ const actions = {
   createReview(context, review){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.reviews,
+      url: DRF.URL + DRF.ROUTES.reviews,
       headers: context.getters.config,
       data: review,
     })
@@ -142,7 +142,7 @@ const actions = {
     // community/<int:review_pk>/ (get) 
     axios({
       method: 'get',
-      url: DRF.URL + DRF.reviewDetail(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewDetail(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -166,45 +166,50 @@ const actions = {
   updateReview(context, pack){
     axios({
       method: 'put',
-      url: DRF.URL + DRF.reviewUpdateDelete(pack.review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewUpdateDelete(pack.review_pk),
       headers: context.getters.config,
       data: pack.data
     })
       .then(res => {
         console.log('리뷰수정', res.data)
         context.dispatch('getAllReviews') //수정 후 데이터 갱신한다.
+        context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
       .catch(err => console.log(err))
   },
   deleteReview(context, review_pk){
     axios({
       method:'delete',
-      url: DRF.URL + DRF.reviewUpdateDelete(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewUpdateDelete(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('리뷰삭제', res.data)
         context.dispatch('getAllReviews') //삭제 후 데이터 갱신한다.
+        context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
       .catch(err => console.log(err))
   },
   likeReview(context, review_pk){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.reviewLike(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewLike(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('리뷰 좋아요,', res.data)
         const like = res.data.detail 
         context.commit('SET_REVIEW_LIKE', like)
+        context.dispatch('getReviewDetail', review_pk)
+        context.dispatch('getAllReviews')
+        context.dispatch('getTop5')
       })
       .catch(err => console.log(err))
   },
   createComment(context, pack){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.comment(pack.review_pk),
+      url: DRF.URL + DRF.ROUTES.comment(pack.review_pk),
       headers: context.getters.config,
       data: pack.data,
     })
@@ -221,7 +226,7 @@ const actions = {
   updateReviewComment(context, pack){
     axios({
       method:'put',
-      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      url: DRF.URL + DRF.ROUTES.commentUpdateDelete(pack.review_pk, pack.comment_pk),
       headers: context.getters.config,
       data: pack.data,
     })
@@ -236,7 +241,7 @@ const actions = {
   deleteReviewComment(context, pack){
     axios({
       method: 'delete',
-      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      url: DRF.URL + DRF.ROUTES.commentUpdateDelete(pack.review_pk, pack.comment_pk),
       headers: context.getters.config,
     })
       .then(res => {
