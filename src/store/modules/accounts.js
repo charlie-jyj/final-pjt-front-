@@ -187,13 +187,10 @@ const actions = {
    // data를 body에 담아서 request
    console.log('schedule', data)
    axios({
-     method: 'get',
+     method: 'post',
      url: DRF.URL + DRF.ROUTES.schedule,
      headers: context.getters.config,
-     params: {
-      'series': data.series,
-      'times': data.times,
-     },
+     data,
    })
     .then(res => {
       console.log('schedule res', res.data)
@@ -202,13 +199,14 @@ const actions = {
       response.forEach(item=>{
         const date = item.date
         const movies = item.movies
+        if(movies){
         movies.forEach(movie => {
           const title = movie.title
           const item = {}
           item.date = date
           item.title = title
           schedule.push(item)
-        }) // 안쪽 foreach
+        })} // 안쪽 foreach
       }) // 바깥 foreach
 
       context.commit('SET_MOVIE_SCHEDULE', schedule)
@@ -225,6 +223,7 @@ const actions = {
       console.log('로그아웃',res.data)
       cookies.remove('user-token')
       cookies.remove('nickname')
+      router.push({name:'EntryPage'})
     })
  }
 }

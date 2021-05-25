@@ -28,7 +28,7 @@ export default {
       return `movies/search/${keyword}/`
     },
     // community
-    reviews: 'community/ ',
+    reviews: 'community/',
     reviewUpdateDelete(review_pk){
       return `community/${review_pk}/`
     },

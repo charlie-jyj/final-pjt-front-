@@ -14,6 +14,7 @@ const state = {
  reviewUpdate: {},
  reviewLike: false,
  commentUpdate: {},
+ reviewpage: 1,
 }
 
 const getters = {
@@ -52,12 +53,17 @@ const getters = {
   },
   IsCommentUpdateReady(state){
     return !!Object.keys(state.commentUpdate).length
+  },
+  ReviewPage(state){
+    return state.reviewpage
   }
 }
 
 const mutations = {
   SET_ALL_REVIEWS(state, reviewList){
-    state.reviews = reviewList
+    reviewList.forEach(review => {
+      state.reviews.push(review)
+    })
   },
   SET_TOP_5(state, top5){
     state.top5 = top5
@@ -79,16 +85,22 @@ const mutations = {
   },
   SET_COMMENT_UPDATE_FORM(state, comment){
     state.commentUpdate = comment
+  },
+  ADD_REVIEW_PAGE(state,page){
+    state.reviewpage = page
   }
 }
 
 // 현재 페이지에서는 login 이 필수이므로 axios header에 jwt 포함하는 것 잊지말기
 const actions = {
   getAllReviews(context){
+    const page = context.getters.ReviewPage
+    console.log(page, DRF.URL + DRF.ROUTES.reviews,)
     axios({
       method: 'get',
       url: DRF.URL + DRF.ROUTES.reviews,
       headers: context.getters.config,
+      params:{page:page}
     })
       .then(res => {
         console.log('전체 리뷰,', res.data)
@@ -249,6 +261,10 @@ const actions = {
         context.dispatch('getReviewDetail', pack.review_pk) // 삭제 후 detail 갱신
       })
       .catch(err => console.log(err))
+  },
+  addReviewPage(context, page){
+    console.log('리뷰 페이지 추가', page)
+    context.commit('ADD_REVIEW_PAGE', page)
   }
 }
 

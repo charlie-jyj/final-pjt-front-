@@ -42,10 +42,22 @@ export default {
     Top5ReviewList, NewReviewList, ReviewDetail, ReviewForm,
   },
   methods: {
-    ...mapActions(['getAllReviews', 'getTop5'])
+    ...mapActions(['getAllReviews', 'getTop5']),
+     scroll(){
+       window.onscroll = () => {
+          if (Math.ceil(window.pageYOffset+window.innerHeight) === document.documentElement.offsetHeight){
+            console.log('end')
+            const current = this.ReviewPage
+            this.$store.dispatch('addReviewPage', current+1)
+            this.getAllReviews()
+
+          }
+         
+      }
+    }
   },
   computed: {
-    ...mapGetters(['IsOpen',])
+    ...mapGetters(['IsOpen', 'ReviewPage'])
   },
   created(){
     this.getTop5()
@@ -56,6 +68,8 @@ export default {
       const reviewFormOpen = document.querySelector('#reviewFormOpen')
       reviewFormOpen.click()
     }
+
+    this.scroll()
   }
 }
 </script>

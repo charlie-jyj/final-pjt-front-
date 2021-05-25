@@ -34,14 +34,29 @@ export default {
     SeriesMovieList, AllMovieList, MovieDetail, MovieSearch
   },
   methods: {
-    ...mapActions(['getMovieSeries', 'getAllMovies'])
+    ...mapActions(['getMovieSeries', 'getAllMovies']),
+    scroll(){
+       window.onscroll = () => {
+          if (Math.ceil(window.pageYOffset+window.innerHeight) === document.documentElement.offsetHeight){
+            console.log('end')
+            const current = this.MoviePage
+            this.$store.dispatch('addPage', current+1)
+            this.getAllMovies()
+
+          }
+         
+      }
+    }
   },
   created(){
     this.getMovieSeries()
     this.getAllMovies()
   },
   computed: {
-    ...mapGetters(['isAuthenticated',])
+    ...mapGetters(['isAuthenticated', 'MoviePage'])
+  },
+  mounted(){
+    this.scroll()
   }
 }
 </script>

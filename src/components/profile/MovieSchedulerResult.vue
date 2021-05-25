@@ -43,4 +43,7 @@ export default {
     border: 1px dashed grey;
 
   }
+
+  .fc-event {
+    font-size: .85em;}
 </style>

@@ -6,7 +6,6 @@
     aria-label="영화 제목을 검색해보세요"
     @submit="handleSubmit"
   ></autocomplete>
-  <div class="d-none">{{AutoCompleteList}}</div>
   </div>
 </template>
 
@@ -20,6 +19,7 @@ export default {
   data(){
     return {
       input: '',
+      keywordList : this.AutoCompleteList
     }
   },
   components: {

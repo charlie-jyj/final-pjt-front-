@@ -21,7 +21,7 @@
               <router-link v-if="isAuthenticated" class="nav-link" :to="{name:'ProfilePage'}">Profile</router-link>
             </li> 
             <li class="nav-item">
-              <a v-if="isAuthenticated" @click="logout" class="nav-link">Logout</a>
+              <a id="logoutLink" v-if="isAuthenticated" @click="logout" class="nav-link">Logout</a>
             </li>
           </ul>
         </div>
@@ -69,6 +69,10 @@ export default {
   .btn-search:hover {
     background-color: #F2EEB3;
     color: #68788C;
+  }
+
+  #logoutLink {
+    cursor: pointer;
   }
 
 

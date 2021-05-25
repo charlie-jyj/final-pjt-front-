@@ -12,6 +12,7 @@ const state = {
   like: true,
   autoComplete:[],
   step2Ready: false,
+  moviepage:1,
 }
 
 const getters = {
@@ -38,6 +39,9 @@ const getters = {
  },
  AutoCompleteList(state){
    return state.autoComplete
+ },
+ MoviePage(state){
+   return state.moviepage
  }
 }
 
@@ -46,7 +50,9 @@ const mutations = {
    state.series = series
  },
  SET_ALL_MOVIES(state, all){
-   state.all = all
+   all.forEach(movie => {
+     state.all.push(movie)
+   })
  },
  SET_MOVIE_DETAIL(state, movie){
    state.detail = movie
@@ -55,6 +61,7 @@ const mutations = {
   state.rates = rates
  },
  SET_MOVIE_LIKE(state, like){
+   console.log('set', like)
    state.like = like
  },
  AUTO_COMPLETE(state, autoComplete){
@@ -62,6 +69,9 @@ const mutations = {
  },
  SET_STEP2(state, bool){
    state.step2Ready=bool
+ },
+ ADD_PAGE(state, page){
+   state.moviepage = page
  }
 }
 const actions = {
@@ -86,12 +96,13 @@ const actions = {
     context.commit('SET_STEP2', bool)
   },
   getAllMovies(context){
-    console.log(context)
-
+    const page = context.getters.MoviePage
+    console.log('가져올 페이지', page , typeof(page))
     axios({
       method: 'get',
       url: DRF.URL + DRF.ROUTES.allMovies,
       headers: context.getters.config,
+      params:{page:page}
     })
       .then(res => {
         console.log('모든 영화', res.data)
@@ -125,7 +136,7 @@ const actions = {
         const movie_to_see = context.getters.MovieToSee
         console.log('찜',movie_to_see)
         const like = movie_to_see.some(item=>{
-          return item.id === movieDetail.id
+          return item.id === movieDetail.movie.id
         })
         console.log(like)
         context.commit('SET_MOVIE_LIKE', like)
@@ -170,8 +181,8 @@ const actions = {
       headers: context.getters.config,
     })
       .then(res => {
-        console.log('movie like:', res.data)
-        const like = res.data.detail
+        const like = res.data.detail? true:false
+        console.log('movie like:', like)
         context.commit('SET_MOVIE_LIKE', like)
       })   
       .catch(err => console.log(err)) 
@@ -205,6 +216,10 @@ const actions = {
         context.commit('SET_ALL_MOVIES', searchResult)
       }) 
       .catch(err => console.log(err))
+  },
+  addPage(context, page){
+    console.log('페이지 추가', page)
+    context.commit('ADD_PAGE', page)
   }
 }
 
