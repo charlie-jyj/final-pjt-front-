@@ -18,7 +18,6 @@ export default {
   name: 'MovieSearch',
   data(){
     return {
-      countries: ['가','가나안','아이','아이언'],
       input: '',
     }
   },
@@ -38,8 +37,8 @@ export default {
       if (input.length < 1) { return [] }
       
       // axios로 받아온 리스트를 return 하여 자동완성을 만든다
-      return this.AutoCompleteList.filter(country => {
-        return country.toLowerCase()
+      return this.AutoCompleteList.filter(item => {
+        return item.toLowerCase()
           .startsWith(input.toLowerCase())
       })
   

@@ -24,7 +24,7 @@
         <div class="card question">
           <div class="card-body">
             <h6 class="card-title">
-              Q{{round}}>>{{CharacterSurvey[current]}}
+              Q{{round}}>>{{ CharacterSurvey[current].content }}
             </h6>
             <div class="d-flex justify-content-end">
               <input @click="checkValue" type="radio" value="true" class="btn-check" name="options" id="yes" autocomplete="off">
@@ -86,11 +86,11 @@ export default {
       } else if (this.round === 3) {
         const adjective = _.sample(this.adjective)
         const final = answer === 'true'? this.current*2 + 1 : this.current*2
-        const nickname = adjective+' '+this.CharacterSurvey[final]
+        const nickname = adjective+' '+ this.CharacterSurvey[final].character.name
         
         const data = {
           nickname,
-          user_img: 'http://img-url.com' // 나중에 수정
+          user_img: this.CharacterSurvey[final].character.img_url 
         }
 
         this.$store.dispatch('setNickname', data)

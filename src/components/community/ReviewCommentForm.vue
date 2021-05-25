@@ -26,11 +26,13 @@ export default {
   methods: {
     createComment(){
       if(this.content){
-        const data = {
+        const pack = {
           review_pk : this.review_pk,
+          data: {
           content : this.content
+          },
         }
-        this.$store.dispatch('createComment', data)
+        this.$store.dispatch('createComment', pack)
         this.content = '' // 초기화
       }else{
         alert('댓글을 작성해주세요..ㅠㅠ')

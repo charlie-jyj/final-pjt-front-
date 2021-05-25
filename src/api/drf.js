@@ -1,11 +1,12 @@
 export default {
-  URL: 'http://127.0.0.1:8000/',
+  URL: 'https://movie-pick.com/',
   ROUTES: {
     // account
     signup: 'rest-auth/registration/',
     nickname: 'accounts/profile/character/',
     login: 'rest-auth/login/',
     schedule: 'accounts/profile/schedule/',
+    profile: 'accounts/profile/',
 
     // movie
     series: 'accounts/profile/series/',
@@ -16,18 +17,20 @@ export default {
     rate(pk){
       return `accounts/${pk}/rated_movie/`
     },
-    movieLike(){
+    movieLike(pk){
       return `accounts/${pk}/movie_to_see/`
     },
     auto(keyword){
       return `movies/auto/${keyword}/`
     },
     search(keyword){
-      return `movies/serach/${keyword}/`
+      return `movies/search/${keyword}/`
     },
-
     // community
     reviews: 'community/ ',
+    reviewUpdateDelete(review_pk){
+      return `community/${review_pk}`
+    },
     top5: 'community/top5/',
     reviewDetail(pk){
       return `community/${pk}/`
@@ -39,7 +42,7 @@ export default {
       return `community/${pk}/comment/`
     },
     commentUpdateDelete(review_pk, comment_pk){
-      return `community/${review_pk}/comment/${comment_pk}`
+      return `community/${review_pk}/comment/${comment_pk}/`
     }
    
   }

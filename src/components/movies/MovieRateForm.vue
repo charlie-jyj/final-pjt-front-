@@ -16,7 +16,8 @@ import {mapGetters} from 'vuex'
 export default {
   name: 'MovieRateForm',
   props:{
-    rating:Number
+    rating:Number,
+    movie_pk: Number,
   },
   data(){
     return{
@@ -29,13 +30,19 @@ export default {
   methods: {
     inputComment(){
       console.log('comment', this.comment, this.rating)
+
       const data = {
         comment: this.comment,
         rate: this.rating
       }
 
+      const pack = {
+        movie_pk: this.movie_pk,
+        data,
+      }
+
       if(this.isAuthenticated){
-        this.$store.dispatch('createMovieRate',data)
+        this.$store.dispatch('createMovieRate',pack)
       }else{
         alert('로그인이 필요한 서비스입니다.')
       }

@@ -2,7 +2,7 @@
   <div class="example-3d">
     <swiper @click-slide="handleClickSlide" class="swiper" :options="swiperOption">
       <swiper-slide v-for="(movie, index) in MovieSeries" :key="index">
-        <img :src="movie.fields.poster_path" alt="" style='height: 100%; width: 100%; object-fit: cover'>
+        <img :src="movie.poster_path" alt="" style='height: 100%; width: 100%; object-fit: cover'>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>

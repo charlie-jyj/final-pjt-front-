@@ -17,7 +17,7 @@
             <div class="review-like d-flex">
               <button @click="likeReview(ReviewDetail.id)" v-if="ReviewLike" class="btn"><i class="fas fa-heart" style="color:#F2D64B"></i></button>
               <button @click="likeReview(ReviewDetail.id)" v-else class="btn"><i class="fas fa-heart"></i></button>
-              <span class="align-self-center">{{ReviewDetail.like_count}}</span>
+              <span class="align-self-center">{{ReviewDetail.user_like_count}}</span>
             </div>
           </div>
           <div class="review-content border p-3">
@@ -27,8 +27,8 @@
             #{{ ReviewDetail.movie.title }}
           </div>
           <div class="review-comment-list mt-5">
-            <p>코멘트({{ReviewDetail.comments.length}})</p>
-            <ReviewCommentList :review_pk="ReviewDetail.id" :comments="ReviewDetail.comments"/>
+            <p>코멘트({{ReviewDetail.comment_set.length}})</p>
+            <ReviewCommentList :review_pk="ReviewDetail.id" :comments="ReviewDetail.comment_set"/>
           </div>
           <div class="review-comment-form mt-5">
             <p>코멘트 작성</p>

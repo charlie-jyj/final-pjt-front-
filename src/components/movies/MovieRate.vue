@@ -6,7 +6,7 @@
         <star-rating :star-size="20" :rating="rate.rate" :read-only="true" :increment="0.01"></star-rating>
       </div>
       <div>
-       <button @click="deleteRate" v-if="rate.user.username === Nickname" class="btn btn-sm"><i class="fas fa-times"></i></button>
+       <button @click="deleteRate" v-if="rate.user.nickname === Nickname" class="btn btn-sm"><i class="fas fa-times"></i></button>
       </div>
     </div>
     <div class="d-flex flex-row align-items-center">
@@ -14,7 +14,7 @@
         {{rate.comment}}
       </div>
       <div>
-        <p class="mb-0 rate-writer text-muted">by {{rate.user.username}}</p>
+        <p class="mb-0 rate-writer text-muted">by {{rate.user.nickname}}</p>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     deleteRate(){
-      const movie_pk = this.MovieDetail.pk // 나중에 axios 할 때 수정
+      const movie_pk = this.MovieDetail.id // 나중에 axios 할 때 수정
       this.$store.dispatch('deleteMovieRate', movie_pk)
     },
   }

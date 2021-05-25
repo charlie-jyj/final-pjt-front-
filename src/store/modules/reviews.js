@@ -1,10 +1,10 @@
-// import axios from 'axios'
-// import DRF from '@/api/drf.js'
+import axios from 'axios'
+import DRF from '@/api/drf.js'
 import router from '@/router/index.js'
 // import cookies from 'vue-cookies'
-import reviews from '@/assets/reviewList.js'
+// import reviews from '@/assets/reviewList.js'                
 
-// axios로 소통할 때 jwt 없으면 안 된다
+// axios로 소통할 때 jwt 없으면 안 된다                         
 const state = {
  reviews : [],
  top5 : [],
@@ -80,40 +80,58 @@ const mutations = {
   SET_COMMENT_UPDATE_FORM(state, comment){
     state.commentUpdate = comment
   }
- 
 }
 
 // 현재 페이지에서는 login 이 필수이므로 axios header에 jwt 포함하는 것 잊지말기
 const actions = {
   getAllReviews(context){
-    // community/ (get) 요청 보내면 read 를 위한 간략한 정보 응답
-    // output: [{ id, title, user, movie, created_at }]
-    const reviewList = reviews
-    context.commit('SET_ALL_REVIEWS', reviewList)
-    
+    axios({
+      method: 'get',
+      url: DRF.URL + DRF.reviews,
+      headers: context.getters.config,
+    })
+      .then(res => {
+        console.log('전체 리뷰,', res.data)
+        const reviewList = res.data
+        context.commit('SET_ALL_REVIEWS', reviewList)
+      })
+      .catch(err=>console.log(err))
   },
   getTop5(context){
-    // community/top5 (get) 요청
-    // output: [{id, title, user, movie, created_at }]
-    const top5 = reviews
-    context.commit('SET_TOP_5', top5)
+    axios({
+      method: 'get',
+      url: DRF.URL + DRF.top5,
+      headers: context.getters.config,
+    })
+      .then(res => {
+        console.log('리뷰top5,', res.data)
+        const top5 = res.data
+        context.commit('SET_TOP_5', top5)
+      })
+      .catch(err=>console.log(err))
   },
   setRef(context, ref){
     console.log('set ref', context,ref)
     context.commit('SET_REF', ref)
   },
   createReview(context, review){
-    console.log(context, review)
-    //  community/ (post) 에 review 보낼 것 
-
+    axios({
+      method: 'post',
+      url: DRF.URL + DRF.reviews,
+      headers: context.getters.config,
+      data: review,
+    })
+      .then(res => {
+        console.log('리뷰생성', res.data)
+        context.dispatch('getAllReviews')
+      })
+      .catch(err => console.log(err))
   },
   goToReview(context, ref){
     //movie detail에서 글 작성으로 넘어가기 위함
     context.dispatch('setRef', ref)
-
     // redirect
     router.push({name:'ReviewPage'})
-
     // 모달 열기
     context.dispatch('openModal', true)
   },
@@ -121,115 +139,111 @@ const actions = {
     context.commit('OPEN_MODAL', bool)
   },
   getReviewDetail(context, review_pk){
-    console.log('detail', context, review_pk)
     // community/<int:review_pk>/ (get) 
-    // response 
-    const review = {
-      user: {
-        id:1,
-        nickname: '유진',
-      },
-      id:1,
-      title: '리뷰1',
-      content: '리뷰내용1',
-      movie: {
-        title: '해리포터와 불의잔'
-      },
-      like_count: 5,
-      user_like:[{id:2, nickname:'재명'}],
-      created_at: '2021-05-23',
-      updated_at: '2021-05-24',
-      comments: [
-        {
-          id:1,
-          content: '댓글1',
-          user: {
-            id:2,
-            nickname: '재명',
-          },  
-        },
-        {
-          id:2,
-          content: '댓글2',
-          user: {
-            id:2,
-            nickname: '유진',
-          },  
-        },
-        {
-          id:3,
-          content: '댓글3',
-          user: {
-            id:2,
-            nickname: '재명',
-          },  
-        }
-      ]
-    }
-    context.commit('SET_REVIEW_DETAIL', review)
-
-    // 좋아요 체크 판별
-    const likeUsers = review.user_like
-    const me = context.getters.Nickname
-    const like =likeUsers.some(user => {
-      return user.username === me
+    axios({
+      method: 'get',
+      url: DRF.URL + DRF.reviewDetail(review_pk),
+      headers: context.getters.config,
     })
-    context.commit('SET_REVIEW_LIKE', like)
-
+      .then(res => {
+        console.log('리뷰상세',res.data)
+        const review = res.data
+        context.commit('SET_REVIEW_DETAIL', review)
+    
+        // 좋아요 체크 판별
+        const likeUsers = review.user_like
+        const me = context.getters.Nickname
+        const like =likeUsers.some(user => {
+          return user.nickname === me
+        })
+        context.commit('SET_REVIEW_LIKE', like)
+      })
+      .catch(err => console.log(err))
   },
   setReviewUpdateForm(context, review){
     context.commit('SET_REVIEW_UPDATE_FORM', review)
   },
-  updateReview(context, data){
-    
-    // community/<int:review_pk>/ (put)
-    // title, content 필수
-    console.log('review update', context, data)
-
-    //수정 후 데이터 갱신한다.
-    context.dispatch('getAllReviews')
+  updateReview(context, pack){
+    axios({
+      method: 'put',
+      url: DRF.URL + DRF.reviewUpdateDelete(pack.review_pk),
+      headers: context.getters.config,
+      data: pack.data
+    })
+      .then(res => {
+        console.log('리뷰수정', res.data)
+        context.dispatch('getAllReviews') //수정 후 데이터 갱신한다.
+      })
+      .catch(err => console.log(err))
   },
   deleteReview(context, review_pk){
-    // community/<int:review_pk>/ (delete)
-
-    console.log('review delete', review_pk)
-
-    //삭제 후 데이터 갱신한다.
-    context.dispatch('getAllReviews')
+    axios({
+      method:'delete',
+      url: DRF.URL + DRF.reviewUpdateDelete(review_pk),
+      headers: context.getters.config,
+    })
+      .then(res => {
+        console.log('리뷰삭제', res.data)
+        context.dispatch('getAllReviews') //삭제 후 데이터 갱신한다.
+      })
+      .catch(err => console.log(err))
   },
   likeReview(context, review_pk){
-    console.log('like', context, review_pk)
-    // community/<int:review_pk>/like/ (post) 
-    const like = true 
-    context.commit('SET_REVIEW_LIKE', like)
+    axios({
+      method: 'post',
+      url: DRF.URL + DRF.reviewLike(review_pk),
+      headers: context.getters.config,
+    })
+      .then(res => {
+        console.log('리뷰 좋아요,', res.data)
+        const like = res.data.detail 
+        context.commit('SET_REVIEW_LIKE', like)
+      })
+      .catch(err => console.log(err))
   },
-  createComment(context, data){
-    console.log('댓글작성', context, data)
-    // community/<int:review_pk>/comment/ (post) 
-    // data.review_pk , {content:data.content}
-
-    // 댓글 작성 후 detail 업데이트 
-    context.dispatch('getReviewDetail', data.review_pk)
+  createComment(context, pack){
+    axios({
+      method: 'post',
+      url: DRF.URL + DRF.comment(pack.review_pk),
+      headers: context.getters.config,
+      data: pack.data,
+    })
+      .then(res => {
+        console.log('댓글작성',res.data)
+        context.dispatch('getReviewDetail', pack.review_pk) // 댓글 작성 후 detail 갱신
+      })
+      .catch(err => console.log(err))
   },
   setCommentUpdateForm(context, comment){
     console.log('댓글수정준비', context, comment)
     context.commit('SET_COMMENT_UPDATE_FORM', comment)
-
   },
-  updateReviewComment(context, data){
-    console.log('댓글 수정!', context, data)
-    // community/<int:review_pk>/comment/<int:comment_pk> (put) 
-
-    // 수정 후 detail 갱신하고 update 상태값 변경
-    context.commit('SET_COMMENT_UPDATE_FORM', {})
-    context.dispatch('getReviewDetail', data.review_pk)
+  updateReviewComment(context, pack){
+    axios({
+      method:'put',
+      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      headers: context.getters.config,
+      data: pack.data,
+    })
+      .then(res => {
+        console.log('댓글수정', res.data),
+        // 수정 후 detail 갱신하고 update 상태값 변경
+        context.commit('SET_COMMENT_UPDATE_FORM', {})
+        context.dispatch('getReviewDetail', pack.review_pk)  // 수정 후 디테일 갱신
+      })
+      .catch(err => console.log(err))
   },
-  deleteReviewComment(context, data){
-    console.log('댓글 삭제!', context, data)
-    // community/<int:review_pk>/comment/<int:comment_pk> (delete)
-
-    // 삭제 후 detail 갱신
-    context.dispatch('getReviewDetail', data.review_pk)
+  deleteReviewComment(context, pack){
+    axios({
+      method: 'delete',
+      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      headers: context.getters.config,
+    })
+      .then(res => {
+        console.log('댓글 삭제', res.data)
+        context.dispatch('getReviewDetail', pack.review_pk) // 삭제 후 detail 갱신
+      })
+      .catch(err => console.log(err))
   }
 }
 

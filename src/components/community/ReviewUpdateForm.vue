@@ -58,15 +58,15 @@ export default {
   methods: {
     updateReview(){
       // 전송할 데이터 준비
-      const data = {
+      const pack = {
         review_pk: this.ReviewUpdate.id,
-        title: this.title,
-        content: this.content,
+        data:{
+          title: this.title,
+          content: this.content,
+        }
       }
-
       // 서버와 통신
-      this.$store.dispatch('updateReview', data)
-
+      this.$store.dispatch('updateReview', pack)
       // 뒷정리 
       const reviewUpdateFormClose = document.querySelector('#reviewUpdateFormClose')
       reviewUpdateFormClose.click()

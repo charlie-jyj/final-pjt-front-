@@ -34,13 +34,13 @@ export default {
   },
   methods: {
     updateReviewComment(){
-      const data = {
+      const pack = {
         review_pk: this.review_pk,
-        comment_pk: this.CommentUpdate.id, // comment 자체이기 때문에
-        content: this.content
+        comment_pk: this.CommentUpdate.id, 
+        data:{content: this.content},
       }
 
-      this.$store.dispatch('updateReviewComment', data)
+      this.$store.dispatch('updateReviewComment', pack)
     }
   }
 }
