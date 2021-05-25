@@ -14,6 +14,7 @@ const state = {
  reviewUpdate: {},
  reviewLike: false,
  commentUpdate: {},
+ reviewpage: 1,
 }
 
 const getters = {
@@ -52,12 +53,17 @@ const getters = {
   },
   IsCommentUpdateReady(state){
     return !!Object.keys(state.commentUpdate).length
+  },
+  ReviewPage(state){
+    return state.reviewpage
   }
 }
 
 const mutations = {
   SET_ALL_REVIEWS(state, reviewList){
-    state.reviews = reviewList
+    reviewList.forEach(review => {
+      state.reviews.push(review)
+    })
   },
   SET_TOP_5(state, top5){
     state.top5 = top5
@@ -79,16 +85,22 @@ const mutations = {
   },
   SET_COMMENT_UPDATE_FORM(state, comment){
     state.commentUpdate = comment
+  },
+  ADD_REVIEW_PAGE(state,page){
+    state.reviewpage = page
   }
 }
 
 // 현재 페이지에서는 login 이 필수이므로 axios header에 jwt 포함하는 것 잊지말기
 const actions = {
   getAllReviews(context){
+    const page = context.getters.ReviewPage
+    console.log(page, DRF.URL + DRF.ROUTES.reviews,)
     axios({
       method: 'get',
-      url: DRF.URL + DRF.reviews,
+      url: DRF.URL + DRF.ROUTES.reviews,
       headers: context.getters.config,
+      params:{page:page}
     })
       .then(res => {
         console.log('전체 리뷰,', res.data)
@@ -100,7 +112,7 @@ const actions = {
   getTop5(context){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.top5,
+      url: DRF.URL + DRF.ROUTES.top5,
       headers: context.getters.config,
     })
       .then(res => {
@@ -117,7 +129,7 @@ const actions = {
   createReview(context, review){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.reviews,
+      url: DRF.URL + DRF.ROUTES.reviews,
       headers: context.getters.config,
       data: review,
     })
@@ -142,7 +154,7 @@ const actions = {
     // community/<int:review_pk>/ (get) 
     axios({
       method: 'get',
-      url: DRF.URL + DRF.reviewDetail(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewDetail(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -166,45 +178,50 @@ const actions = {
   updateReview(context, pack){
     axios({
       method: 'put',
-      url: DRF.URL + DRF.reviewUpdateDelete(pack.review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewUpdateDelete(pack.review_pk),
       headers: context.getters.config,
       data: pack.data
     })
       .then(res => {
         console.log('리뷰수정', res.data)
         context.dispatch('getAllReviews') //수정 후 데이터 갱신한다.
+        context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
       .catch(err => console.log(err))
   },
   deleteReview(context, review_pk){
     axios({
       method:'delete',
-      url: DRF.URL + DRF.reviewUpdateDelete(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewUpdateDelete(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('리뷰삭제', res.data)
         context.dispatch('getAllReviews') //삭제 후 데이터 갱신한다.
+        context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
       .catch(err => console.log(err))
   },
   likeReview(context, review_pk){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.reviewLike(review_pk),
+      url: DRF.URL + DRF.ROUTES.reviewLike(review_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('리뷰 좋아요,', res.data)
         const like = res.data.detail 
         context.commit('SET_REVIEW_LIKE', like)
+        context.dispatch('getReviewDetail', review_pk)
+        context.dispatch('getAllReviews')
+        context.dispatch('getTop5')
       })
       .catch(err => console.log(err))
   },
   createComment(context, pack){
     axios({
       method: 'post',
-      url: DRF.URL + DRF.comment(pack.review_pk),
+      url: DRF.URL + DRF.ROUTES.comment(pack.review_pk),
       headers: context.getters.config,
       data: pack.data,
     })
@@ -221,7 +238,7 @@ const actions = {
   updateReviewComment(context, pack){
     axios({
       method:'put',
-      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      url: DRF.URL + DRF.ROUTES.commentUpdateDelete(pack.review_pk, pack.comment_pk),
       headers: context.getters.config,
       data: pack.data,
     })
@@ -236,7 +253,7 @@ const actions = {
   deleteReviewComment(context, pack){
     axios({
       method: 'delete',
-      url: DRF.URL + DRF.commentUpdateDelete(pack.review_pk, pack.comment_pk),
+      url: DRF.URL + DRF.ROUTES.commentUpdateDelete(pack.review_pk, pack.comment_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -244,6 +261,10 @@ const actions = {
         context.dispatch('getReviewDetail', pack.review_pk) // 삭제 후 detail 갱신
       })
       .catch(err => console.log(err))
+  },
+  addReviewPage(context, page){
+    console.log('리뷰 페이지 추가', page)
+    context.commit('ADD_REVIEW_PAGE', page)
   }
 }
 

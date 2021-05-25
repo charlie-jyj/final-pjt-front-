@@ -16,7 +16,8 @@
         </div>
         <div class="row mt-2 mb-4">
           <div class="d-grid gap-2 mx-auto">
-            <button class="btn btn-start" type="button" data-bs-toggle="modal" data-bs-target="#signupModal">시작하기</button>
+            <button @click="startSignUp" class="btn btn-start" type="button">시작하기</button>
+            <button class="btn btn-start d-none" id="startSignUp" type="button" data-bs-toggle="modal" data-bs-target="#signupModal">시작하기</button>
             <button class="btn btn-login mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
           </div>
         </div>
@@ -38,6 +39,13 @@ export default {
   components: {
     SignupBase, Login
   },
+  methods:{
+    startSignUp(){
+      this.$store.dispatch('setStep2', false)
+      const startBtn = document.querySelector('#startSignUp')
+      startBtn.click()
+    }
+  }
 }
 </script>
 

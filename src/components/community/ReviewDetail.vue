@@ -23,7 +23,7 @@
           <div class="review-content border p-3">
             {{ReviewDetail.content}}
           </div>
-          <div v-if="!!Object.keys(ReviewDetail.movie).length" class="review-footer d-flex justify-content-end">
+          <div v-if="ReviewDetail.movie&&!!Object.keys(ReviewDetail.movie).length" class="review-footer d-flex justify-content-end">
             #{{ ReviewDetail.movie.title }}
           </div>
           <div class="review-comment-list mt-5">

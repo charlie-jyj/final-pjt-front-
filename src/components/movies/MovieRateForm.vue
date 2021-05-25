@@ -43,6 +43,7 @@ export default {
 
       if(this.isAuthenticated){
         this.$store.dispatch('createMovieRate',pack)
+        this.comment = ''
       }else{
         alert('로그인이 필요한 서비스입니다.')
       }

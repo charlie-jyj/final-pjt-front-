@@ -9,13 +9,12 @@
 
       <!--영화 관련 정보들 서버 연결 후에 attribute 다 갈아끼워야 해~ 잊지말기-->
       <div class="modal-body" v-if="isMovieDetailReady">
-        <input type="hidden" name="pk" :value="MovieDetail.id">
-        <div class="movie-img-background" :style="`background-image:url(${MovieDetail.poster_path})`">
+        <div class="movie-img-background" :style="`background-image:url(${MovieDetail.movie.poster_path})`">
           <div class="movie-img">
-            <div class="movie-poster" :style="`background-image:url(${MovieDetail.poster_path})`"></div>
+            <div class="movie-poster" :style="`background-image:url(${MovieDetail.movie.poster_path})`"></div>
             <div class="movie-title">
-              <p class="mb-0">{{MovieDetail.title}}</p>
-              <p class="movie-title-detail">{{MovieDetail.release_year}}/{{MovieDetail.country}}/{{MovieDetail.genre}}</p>
+              <p class="mb-0">{{MovieDetail.movie.title}}</p>
+              <p class="movie-title-detail">{{MovieDetail.movie.release_year}}/{{MovieDetail.movie.country}}/{{MovieDetail.movie.genre}}</p>
             </div>
             <div class="movie-like">
               <button @click="likeMovie" class="btn">
@@ -34,7 +33,7 @@
               <div class="col-1"></div>
               <div class="col-10">
                 <p class="border-bottom p-2">영화 평가</p>
-                <MovieRateForm v-show="showRateForm" :rating="rating" :movie_pk="MovieDetail.id"/>
+                <MovieRateForm v-show="showRateForm" :rating="rating" :movie_pk="MovieDetail.movie.id"/>
                 <div class="star d-flex justify-content-center">
                   <star-rating @rating-selected="popRateForm" v-model="rating" :increment="0.5" :show-rating="false"></star-rating>
                 </div>
@@ -46,7 +45,7 @@
               <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10">
-                  {{ MovieDetail.avg_rate.rate__avg }} 
+                  <p>평균 별점: {{ !MovieDetail.avg_rate.rate__avg? 0 : MovieDetail.avg_rate.rate__avg }}점 </p>
                   <MovieRateList/>
                 </div>
                 <div class="col-1"></div>
@@ -63,7 +62,7 @@
               <div class="detail-movie-info">
                 <p class="border-bottom p-2">줄거리</p>
                 <div id="overviewWrapper" class="detail-movie-overview height-50">
-                  <p id="overviewText" class="overflow-hidden">{{MovieDetail.overview}}</p>
+                  <p id="overviewText" class="overflow-hidden">{{MovieDetail.movie.overview}}</p>
                 </div>
                 <div class="d-flex justify-content-end">
                   <button id="moreBtn" @click="expandOverview" class="btn btn-sm btn-outline-secondary mt-4 me-2" type="button">더보기</button>
@@ -73,23 +72,23 @@
               <div class="detail-movie-spec d-flex flex-row justify-content-evenly">
                 <div class="spec-item">
                   <p class="spec-title">감독</p>
-                  <p class="spec-detail">{{ MovieDetail.director }}</p>
+                  <p class="spec-detail">{{ MovieDetail.movie.director }}</p>
                 </div>
                 <div class="spec-item">
                   <p class="spec-title">상영시간</p>
-                  <p class="spec-detail">{{ MovieDetail.runtime }}분</p>
+                  <p class="spec-detail">{{ MovieDetail.movie.runtime }}분</p>
                 </div>
                 <div class="spec-item">
                   <p class="spec-title">관람등급</p>
-                  <p class="spec-detail">{{ MovieDetail.age_rate }}세</p>
+                  <p class="spec-detail">{{ MovieDetail.movie.age_rate }}세</p>
                 </div>
                 <div class="spec-item">
                   <p class="spec-title">장르</p>
-                  <p class="spec-detail">{{ MovieDetail.genre }}</p>
+                  <p class="spec-detail">{{ MovieDetail.movie.genre }}</p>
                 </div>
                 <div class="spec-item">
                   <p class="spec-title">국가</p>
-                  <p class="spec-detail">{{ MovieDetail.country }}</p>
+                  <p class="spec-detail">{{ MovieDetail.movie.country }}</p>
                 </div>
                 
               </div>
@@ -155,7 +154,7 @@ export default {
     },
     likeMovie(){
       if(this.isAuthenticated){
-        this.$store.dispatch('likeMovie', this.MovieDetail.id)
+        this.$store.dispatch('likeMovie', this.MovieDetail.movie.id)
       } else {
         alert('로그인이 필요한 서비스입니다.')
       }
@@ -167,12 +166,15 @@ export default {
     }
   },
   mounted(){
-   this.current = this.MovieDetail.id  
+    if(this.MovieDetail&&!!Object.keys(this.MovieDetail).length){
+    this.current = this.MovieDetail.movie.id  
+    }
   },
   updated(){
+
     // rating 0 초기화
     this.before = this.current
-    this.current = this.MovieDetail.id  
+    this.current = this.MovieDetail.movie.id  
     console.log('이전영화, 현재영화',this.before, this.current)
     if (this.before !== this.current){  // 다른 영화를 모달로 켰을 때 초기화
       this.showRateForm = false

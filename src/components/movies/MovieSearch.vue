@@ -19,13 +19,14 @@ export default {
   data(){
     return {
       input: '',
+      keywordList : this.AutoCompleteList
     }
   },
   components: {
     Autocomplete
   },
   computed: {
-    ...mapGetters(['AutoCompleteList'])
+    ...mapGetters(['AutoCompleteList']),
   },
   methods: {
     search(input) {
@@ -47,7 +48,7 @@ export default {
        // 이 영역은 enter가 일어났을 때 발동된다
       const search = result? result : this.input
       this.$store.dispatch('searchMovie', search)
-    }
+    },
   }
 }
 </script>

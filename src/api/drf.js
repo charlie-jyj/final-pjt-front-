@@ -1,10 +1,11 @@
 export default {
-  URL: 'https://movie-pick.com/',
+  URL: '	http://127.0.0.1:8000/',
   ROUTES: {
     // account
     signup: 'rest-auth/registration/',
     nickname: 'accounts/profile/character/',
     login: 'rest-auth/login/',
+    logout: 'rest-auth/logout/',
     schedule: 'accounts/profile/schedule/',
     profile: 'accounts/profile/',
 
@@ -27,9 +28,9 @@ export default {
       return `movies/search/${keyword}/`
     },
     // community
-    reviews: 'community/ ',
+    reviews: 'community/',
     reviewUpdateDelete(review_pk){
-      return `community/${review_pk}`
+      return `community/${review_pk}/`
     },
     top5: 'community/top5/',
     reviewDetail(pk){

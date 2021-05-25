@@ -10,7 +10,7 @@
             <div class="row">
               <div class="col-1"></div>
               <div class="col-10">
-                <div v-if="!!Object.keys(ReviewUpdate.movie).length" class="ref mt-5">
+                <div v-if="ReviewUpdate.movie&&!!Object.keys(ReviewUpdate.movie).length" class="ref mt-5">
                   <span>#</span><span>{{ReviewUpdate.movie.title}}</span>
                 </div>
                 <div class="title mt-3">

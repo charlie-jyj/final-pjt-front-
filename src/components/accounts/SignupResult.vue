@@ -13,7 +13,7 @@
                     <i class="fas fa-share-square share-icon"></i></button>
                 </div>
               </div>
-              <img src="https://t1.daumcdn.net/cfile/tistory/2467D839578799D634" class="card-img-top" alt="character-img">
+              <img :src="UserImg" class="card-img-top" alt="character-img">
             </div>
             <div class="card-body">
               <p class="card-text text-center h4 fw-bold">{{Nickname}}</p>
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="d-grid gap-2 ms-3 me-3 mt-3">
-          <button class="btn btn-review" type="button">한마디 남기러 가기</button>
+          <button @click="goToReview" class="btn btn-review" type="button">한마디 남기러 가기</button>
         </div>
       </div>
       <div class="col-2"> 
@@ -47,9 +47,14 @@ export default {
     MovieSlider,
   },
   computed: {
-    ...mapGetters(['Nickname', 'MovieSeries'])
+    ...mapGetters(['Nickname', 'MovieSeries', 'UserImg'])
   },
   methods: {
+    goToReview(){
+      const signUpModalClose = document.querySelector('#signUpModalClose')
+      signUpModalClose.click()
+      this.$router.push({name:'ReviewPage'})
+    },
     kakaoShare(){
       console.log(window.Kakao)
       window.Kakao.Link.sendDefault({
@@ -58,7 +63,7 @@ export default {
           title: this.Nickname+'이(가) 보냅니다.',
           description: '무야호~ 당신을 초대합니다.',
           imageUrl:
-            'https://t1.daumcdn.net/cfile/tistory/2467D839578799D634',
+            this.UserImg,
           link: {
             mobileWebUrl: 'http://172.16.101.102:8080/',
             webUrl: 'http://172.16.101.102:8080/',

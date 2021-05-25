@@ -1,5 +1,6 @@
 import axios from 'axios'
 import DRF from '@/api/drf.js'
+// import _ from 'lodash'
 // import router from '@/router/index.js'
 // import cookies from 'vue-cookies'
 // import movies from '@/assets/movieList.js'
@@ -11,6 +12,9 @@ const state = {
   rates: [],
   like: true,
   autoComplete:[],
+  step2Ready: false,
+  moviepage:1,
+  moviesForSurvey:[],
 }
 
 const getters = {
@@ -19,6 +23,9 @@ const getters = {
  },
  AllMovies(state) {
    return state.all
+ },
+ Step2Ready(state){
+  return state.step2Ready
  },
  MovieDetail(state){
    return state.detail
@@ -34,7 +41,13 @@ const getters = {
  },
  AutoCompleteList(state){
    return state.autoComplete
- }
+ },
+ MoviePage(state){
+   return state.moviepage
+ },
+ MoviesForSurvey(state){
+  return state.moviesForSurvey
+}
 }
 
 const mutations = {
@@ -42,7 +55,9 @@ const mutations = {
    state.series = series
  },
  SET_ALL_MOVIES(state, all){
-   state.all = all
+   all.forEach(movie => {
+     state.all.push(movie)
+   })
  },
  SET_MOVIE_DETAIL(state, movie){
    state.detail = movie
@@ -51,49 +66,96 @@ const mutations = {
   state.rates = rates
  },
  SET_MOVIE_LIKE(state, like){
+   console.log('set', like)
    state.like = like
  },
  AUTO_COMPLETE(state, autoComplete){
    state.autoComplete = autoComplete
+ },
+ SET_STEP2(state, bool){
+   state.step2Ready=bool
+ },
+ ADD_PAGE(state, page){
+   state.moviepage = page
+ },
+ SEARCH_MOVIES(state,searchResult){
+  state.all = searchResult
+ },
+ SET_SURVEY_MOVIES(state, movies){
+  movies.forEach(movie => {
+    state.moviesForSurvey.push(movie)
+  })
  }
 }
 const actions = {
   setMovieSeries(context, series){
     context.commit('SET_MOVIE_SERIES', series)
   },
+  getSurveyMovies(context){
+    [1,2,3,4,5].forEach(number => {
+      axios({
+        method: 'get',
+        url: DRF.URL + DRF.ROUTES.allMovies,
+        headers: context.getters.config,
+        params:{page:number}
+      })
+        .then(res => {
+          console.log('설문 영화', res.data)
+          const all = res.data
+          context.commit('SET_SURVEY_MOVIES', all)
+        })
+        .then(data => {
+          console.log(data)
+          context.dispatch('setStep2', true)
+        })
+        .catch(err => console.log(err))  
+    })
+  },
   getMovieSeries(context){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.series,
+      url: DRF.URL + DRF.ROUTES.series,
       headers: context.getters.config,
     })
       .then(res => {
         console.log('get 시리즈,', res.data)     
         const series = res.data
         context.commit('SET_MOVIE_SERIES', series)
+        return res.data
       })
       .catch(err => console.log(err))
   },
+  setStep2(context, bool){
+    context.commit('SET_STEP2', bool)
+  },
   getAllMovies(context){
-    console.log(context)
+    const page = context.getters.MoviePage
+    console.log('가져올 페이지', page , typeof(page))
 
+    if(page>0){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.allMovies,
+      url: DRF.URL + DRF.ROUTES.allMovies,
       headers: context.getters.config,
+      params:{page:page}
     })
       .then(res => {
         console.log('모든 영화', res.data)
         const all = res.data
         context.commit('SET_ALL_MOVIES', all)
       })
-      .catch(err => console.log(err))    
+      .then(data => {
+        console.log(data)
+        context.dispatch('setStep2', true)
+      })
+      .catch(err => console.log(err)) 
+    }   
   },
   showMovieDetail(context, movie){
     const movie_pk = movie.id
     axios({
       method: 'get',
-      url: DRF.URL + DRF.movieDetail(movie_pk),
+      url: DRF.URL + DRF.ROUTES.movieDetail(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
@@ -106,26 +168,23 @@ const actions = {
         context.commit('SET_DETAIL_RATES', rates)
 
         // like를 판별하여 여기서 set 하자 
-        const movie_to_see = context.getters.MovieToSee
-        const like = movie_to_see.some(item=>{
-          return item.id === movieDetail.id
-        })
-        context.commit('SET_MOVIE_LIKE', like)
+        context.dispatch('getProfile')
       })
       .catch(err => console.log(err))
   },
   createMovieRate(context, pack){
+    console.log(DRF.URL + DRF.ROUTES.rate(pack.movie_pk),)
     axios({
       method: 'post',
-      url: DRF.URL + DRF.rate(pack.movie_pk),
+      url: DRF.URL + DRF.ROUTES.rate(pack.movie_pk),
       headers: context.getters.config,
       data: pack.data,
     })
       .then(res => {
-        console.log('comment delete', res.data)
+        console.log('comment create', res.data)
       
         // 평가 작성 후 showMovieDetail
-        context.dispatch('showMovieDetail')
+        context.dispatch('showMovieDetail', {id:pack.movie_pk})
       })
       .catch(err => console.log(err))
   },
@@ -133,13 +192,13 @@ const actions = {
     console.log(context, movie_pk)
     axios({
       method: 'delete',
-      url: DRF.URL + DRF.rate(movie_pk),
+      url: DRF.URL + DRF.ROUTES.rate(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('comment delete', res.data)   
         // 평가 삭제 후 showMovieDetail
-        context.dispatch('showMovieDetail')
+        context.dispatch('showMovieDetail', {id:movie_pk})
       })
       .catch(err => console.log(err))
   },
@@ -147,12 +206,12 @@ const actions = {
     // accounts/<int:movie_pk>/movie_to_see/ (post) (login)
     axios({
       method: 'post',
-      url: DRF.URL + DRF.movieLike(movie_pk),
+      url: DRF.URL + DRF.ROUTES.movieLike(movie_pk),
       headers: context.getters.config,
     })
       .then(res => {
-        console.log('movie like:', res.data)
-        const like = res.data.detail
+        const like = res.data.detail? true:false
+        console.log('movie like:', like)
         context.commit('SET_MOVIE_LIKE', like)
       })   
       .catch(err => console.log(err)) 
@@ -160,7 +219,7 @@ const actions = {
   autoComplete(context, input){
     axios({
       method: 'get',
-      url: DRF.URL + DRF.search(input),
+      url: DRF.URL + DRF.ROUTES.search(input),
       headers: context.getters.config,
     })
       .then(res => {
@@ -173,19 +232,25 @@ const actions = {
       .catch(err => console.log(err))
   },
   searchMovie(context, search){
-    console.log(context, search)
+    console.log(context, search,DRF.URL + DRF.ROUTES.search(search) )
     axios({
       method: 'get',
-      url: DRF.URL + DRF.search(search),
+      url: DRF.URL + DRF.ROUTES.search(search),
       headers: context.getters.config,
     })
       .then(res => {
         console.log('영화검색', res.data)
         const searchResult = res.data
         // state 를 신규 리스트로 갱신한다.
-        context.commit('SET_ALL_MOVIES', searchResult)
+        context.commit('SEARCH_MOVIES', searchResult)
+        // page를 바꿔 놓아야..?
+        context.dispatch('addPage', -1)
       }) 
       .catch(err => console.log(err))
+  },
+  addPage(context, page){
+    console.log('페이지 추가', page)
+    context.commit('ADD_PAGE', page)
   }
 }
 
