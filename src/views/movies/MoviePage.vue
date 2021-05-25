@@ -36,6 +36,8 @@ export default {
   methods: {
     ...mapActions(['getMovieSeries', 'getAllMovies']),
     scroll(){
+
+      if(this.CurrentPage === 1){
        window.onscroll = () => {
           if (Math.ceil(window.pageYOffset+window.innerHeight) === document.documentElement.offsetHeight){
             console.log('end')
@@ -43,17 +45,19 @@ export default {
             this.$store.dispatch('addPage', current+1)
             this.getAllMovies()
 
-          }
-         
+          }  
+      }
       }
     }
   },
   created(){
     this.getMovieSeries()
     this.getAllMovies()
+    console.log('나지금1페이지')
+    this.$store.dispatch('currentPage', 1)
   },
   computed: {
-    ...mapGetters(['isAuthenticated', 'MoviePage'])
+    ...mapGetters(['isAuthenticated', 'MoviePage', 'CurrentPage'])
   },
   mounted(){
     this.scroll()

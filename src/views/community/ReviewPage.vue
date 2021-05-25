@@ -44,6 +44,8 @@ export default {
   methods: {
     ...mapActions(['getAllReviews', 'getTop5']),
      scroll(){
+       
+      if(this.CurrentPage === 2){
        window.onscroll = () => {
           if (Math.ceil(window.pageYOffset+window.innerHeight) === document.documentElement.offsetHeight){
             console.log('end')
@@ -51,17 +53,19 @@ export default {
             this.$store.dispatch('addReviewPage', current+1)
             this.getAllReviews()
 
-          }
-         
+          }  
+      }
       }
     }
   },
   computed: {
-    ...mapGetters(['IsOpen', 'ReviewPage'])
+    ...mapGetters(['IsOpen', 'ReviewPage','CurrentPage'])
   },
   created(){
     this.getTop5()
     this.getAllReviews()  
+    console.log('나 지금 2페이지')
+    this.$store.dispatch('currentPage', 2)
   },
   mounted(){ 
     if(this.IsOpen){

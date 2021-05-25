@@ -1,5 +1,6 @@
 import axios from 'axios'
 import DRF from '@/api/drf.js'
+// import _ from 'lodash'
 // import router from '@/router/index.js'
 // import cookies from 'vue-cookies'
 // import movies from '@/assets/movieList.js'
@@ -13,6 +14,7 @@ const state = {
   autoComplete:[],
   step2Ready: false,
   moviepage:1,
+  moviesForSurvey:[],
 }
 
 const getters = {
@@ -42,7 +44,10 @@ const getters = {
  },
  MoviePage(state){
    return state.moviepage
- }
+ },
+ MoviesForSurvey(state){
+  return state.moviesForSurvey
+}
 }
 
 const mutations = {
@@ -75,11 +80,36 @@ const mutations = {
  },
  SEARCH_MOVIES(state,searchResult){
   state.all = searchResult
+ },
+ SET_SURVEY_MOVIES(state, movies){
+  movies.forEach(movie => {
+    state.moviesForSurvey.push(movie)
+  })
  }
 }
 const actions = {
   setMovieSeries(context, series){
     context.commit('SET_MOVIE_SERIES', series)
+  },
+  getSurveyMovies(context){
+    [1,2,3,4,5].forEach(number => {
+      axios({
+        method: 'get',
+        url: DRF.URL + DRF.ROUTES.allMovies,
+        headers: context.getters.config,
+        params:{page:number}
+      })
+        .then(res => {
+          console.log('설문 영화', res.data)
+          const all = res.data
+          context.commit('SET_SURVEY_MOVIES', all)
+        })
+        .then(data => {
+          console.log(data)
+          context.dispatch('setStep2', true)
+        })
+        .catch(err => console.log(err))  
+    })
   },
   getMovieSeries(context){
     axios({
@@ -139,13 +169,6 @@ const actions = {
 
         // like를 판별하여 여기서 set 하자 
         context.dispatch('getProfile')
-        const movie_to_see = context.getters.MovieToSee
-        console.log('찜',movie_to_see)
-        const like = movie_to_see.some(item=>{
-          return item.id === movieDetail.movie.id
-        })
-        console.log(like)
-        context.commit('SET_MOVIE_LIKE', like)
       })
       .catch(err => console.log(err))
   },

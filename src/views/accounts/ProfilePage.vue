@@ -79,6 +79,8 @@ export default {
     ...mapActions(['getProfile', 'getMovieSeries'])
   },
   created(){
+    console.log('나 지금 3페이지')
+    this.$store.dispatch('currentPage', 3)
     this.getProfile()
     this.getMovieSeries()
   }

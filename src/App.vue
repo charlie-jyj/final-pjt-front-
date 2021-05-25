@@ -43,7 +43,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(['logout'])
+    ...mapActions(['logout']),
   },
   computed: {
     ...mapGetters(['isAuthenticated'])

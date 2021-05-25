@@ -13,6 +13,7 @@ const state = {
  userImg: '',
  movieSchedule: [],
  ratedMovies: [],
+ now: 1,
 }
 
 const getters = {
@@ -46,6 +47,9 @@ const getters = {
  config: state => {
    return {Authorization: `JWT ${state.token}`}
   },
+  CurrentPage(state){
+    return state.now
+  }
 }
 
 const mutations = {
@@ -86,6 +90,9 @@ const mutations = {
  },
  SET_RATED_MOVIES(state, ratedMovies){
    state.ratedMovies = ratedMovies
+ },
+ SET_NOW_PAGE(state, page){
+  state.now = page
  }
 }
 
@@ -105,7 +112,7 @@ const actions = {
     })
     .then(data => {
       console.log(data)
-      context.dispatch('getAllMovies')
+      context.dispatch('getSurveyMovies')
     })
     .catch(err => console.log(err))
 
@@ -179,6 +186,17 @@ const actions = {
       context.commit('SET_NICKNAME', res.data.nickname) // nickname
       context.commit('SET_USERNAME', res.data.username) // username
       context.commit('SET_USER_IMG', res.data.user_img) // user img
+      return res.data
+    })
+    .then(data => {
+      console.log('찜 점검', data)
+      const movie_to_see = context.getters.MovieToSee
+      console.log('찜',movie_to_see)
+      const like = movie_to_see.some(item=>{
+        return item.id === context.getters.MovieDetail.movie.id
+      })
+      console.log('나 이거 좋아하니?',like)
+      context.commit('SET_MOVIE_LIKE', like)
     })
     .catch(err => console.log(err))
  },
@@ -225,6 +243,9 @@ const actions = {
       cookies.remove('nickname')
       router.push({name:'EntryPage'})
     })
+ },
+ currentPage(context,page){
+  context.commit('SET_NOW_PAGE', page)
  }
 }
 

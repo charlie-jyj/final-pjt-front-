@@ -166,7 +166,9 @@ export default {
     }
   },
   mounted(){
+    if(this.MovieDetail&&!!Object.keys(this.MovieDetail).length){
     this.current = this.MovieDetail.movie.id  
+    }
   },
   updated(){
 
