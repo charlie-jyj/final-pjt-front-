@@ -101,8 +101,13 @@ const actions = {
   },
   createMovieRate(context, data){
     //axios accounts/<int:movie_pk>/rated_movie/ (post) (login)
-    // 평가 작성 후 새로운 영화 평가 목록을 불러와야 할 것 ****
+    // 평가 작성 후 showMovieDetail ****
     console.log(context, data)
+  },
+  deleteMovieRate(context,movie_pk){
+    console.log(context, movie_pk)
+    //axios accounts/<int:movie_pk>/rated_movie/ (delete)
+    // 평가 삭제 후 showMovieDetail ****
   },
   likeMovie(context){
     // accounts/<int:movie_pk>/movie_to_see/ (post) (login)

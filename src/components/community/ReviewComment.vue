@@ -2,9 +2,9 @@
   <div class="border p-2">
     <div class="comment-header d-flex flex-row justify-content-between">
       <div class="d-flex align-items-center">
-        <p class="comment-user mb-0">{{ comment.user.username }}</p>
+        <p class="comment-user mb-0">{{ comment.user.nickname }}</p>
       </div>
-      <div v-show="comment.user.username === Nickname" class="buttons">
+      <div v-show="comment.user.nickname === Nickname" class="buttons">
         <button @click="setCommentUpdateForm(comment)" class="btn btn-sm btn-outline-light"><i class="far fa-edit"></i></button>
         <button @click="deleteReviewComment" class="btn btn-sm btn-outline-light"><i class="far fa-trash-alt"></i></button>
       </div>

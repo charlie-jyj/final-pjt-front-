@@ -5,6 +5,7 @@ export default {
     signup: 'rest-auth/registration/',
     nickname: 'accounts/profile/character/',
     login: 'rest-auth/login/',
+    schedule: 'accounts/profile/schedule/',
 
     // movie
     series: 'accounts/profile/series/',

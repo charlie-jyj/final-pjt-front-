@@ -18,7 +18,7 @@
           </div>
       </div>
       <div class="col-md-2">
-          <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+          <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit"/>
       </div>
   </div>
   <div class="row">
@@ -41,19 +41,21 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Movie Scheduler</button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Extra</button>
-          </li>
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="container movie-scheduler-wrapper"></div>
+            <div class="container movie-scheduler-wrapper">
+              <div class="d-grid gap-2">
+                <button class="btn btn-schedule" data-bs-toggle="modal" data-bs-target="#movieSchedulerModal" type="button">schedule maker</button>
+              </div>
+              <div>
+                <MovieScheduler/>
+                <MovieSchedulerModal/>
+              </div>
+            </div>
           </div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">b</div>
-          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">c</div>
+  
+         
         </div>
       </div>
   </div>            
@@ -62,28 +64,44 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import MovieScheduler from '@/components/profile/MovieScheduler.vue'
+import MovieSchedulerModal from '@/components/profile/MovieSchedulerModal.vue'
+
 export default {
   name: 'ProfilePage',
+  components: {
+    MovieScheduler, MovieSchedulerModal
+  },
   computed: {
-    ...mapGetters(['Nickname','Username', 'UserImg', ])
+    ...mapGetters(['Nickname','Username', 'UserImg',])
   },
   methods: {
-    ...mapActions(['getProfile'])
+    ...mapActions(['getProfile', 'getMovieSeries'])
   },
   created(){
     this.getProfile()
+    this.getMovieSeries()
   }
 }
 </script>
 
 <style scoped>
   .profile-wrapper{
-    margin-top: 3rem;
+    margin-top: 5rem;
   }
 
   .movie-scheduler-wrapper{
-    background-color: khaki;
-    height: 50vh;
+    margin-top:2rem;
+  }
+
+  .btn-schedule {
+    background-color: #F2D64B;
+    color: #68788C;
+  }
+
+  .btn-schedule:hover {
+    background-color: #F2EEB3;
+    color: #68788C;
   }
 
   .emp-profile{

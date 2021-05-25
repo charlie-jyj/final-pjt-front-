@@ -12,6 +12,7 @@ const state = {
  movieToSee : [{id:1},{id:2}],
  username:'',
  userImg: '',
+ movieSchedule: [],
 }
 
 const getters = {
@@ -35,8 +36,10 @@ const getters = {
  },
  UserImg(state){
    return state.userImg
+ },
+ MovieSchedule(state){
+   return state.movieSchedule
  }
-
 }
 
 const mutations = {
@@ -68,6 +71,9 @@ const mutations = {
  },
  SET_USER_IMG(state,img){
   state.userImg = img
+ },
+ SET_MOVIE_SCHEDULE(state, schedule){
+   state.movieSchedule = schedule
  }
 }
 
@@ -142,6 +148,20 @@ const actions = {
   context.commit('SET_NICKNAME', '유진') // nickname도 저장해두자 두고두고 쓸 것
   context.commit('SET_USERNAME', 'jtree20@naver.com') // username
   context.commit('SET_USER_IMG', 'https://images.indianexpress.com/2019/04/cat_759getty.jpg') // user img
+ },
+ getMovieSchedule(context, data){
+   console.log('get schedule',context, data)
+   // accounts/profile/schedule/ (get)
+   // data를 body에 담아서 request
+   // response data 에 date, movies.title 추출해서 가공
+   const schedule = [
+    { title: '아이언맨', date: '2021-05-25' },
+    { title: '아이언맨2', date: '2021-05-25' },
+    { title: '해리포터', date: '2021-05-26' }
+  ]
+
+  context.commit('SET_MOVIE_SCHEDULE', schedule)
+
  }
 }
 
