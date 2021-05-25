@@ -72,6 +72,9 @@ const mutations = {
  },
  ADD_PAGE(state, page){
    state.moviepage = page
+ },
+ SEARCH_MOVIES(state,searchResult){
+  state.all = searchResult
  }
 }
 const actions = {
@@ -98,6 +101,8 @@ const actions = {
   getAllMovies(context){
     const page = context.getters.MoviePage
     console.log('가져올 페이지', page , typeof(page))
+
+    if(page>0){
     axios({
       method: 'get',
       url: DRF.URL + DRF.ROUTES.allMovies,
@@ -113,7 +118,8 @@ const actions = {
         console.log(data)
         context.dispatch('setStep2', true)
       })
-      .catch(err => console.log(err))    
+      .catch(err => console.log(err)) 
+    }   
   },
   showMovieDetail(context, movie){
     const movie_pk = movie.id
@@ -213,7 +219,9 @@ const actions = {
         console.log('영화검색', res.data)
         const searchResult = res.data
         // state 를 신규 리스트로 갱신한다.
-        context.commit('SET_ALL_MOVIES', searchResult)
+        context.commit('SEARCH_MOVIES', searchResult)
+        // page를 바꿔 놓아야..?
+        context.dispatch('addPage', -1)
       }) 
       .catch(err => console.log(err))
   },
