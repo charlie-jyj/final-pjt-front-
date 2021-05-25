@@ -88,6 +88,9 @@ const mutations = {
   },
   ADD_REVIEW_PAGE(state,page){
     state.reviewpage = page
+  },
+  RESET_REVIEW_PAGE(state){
+    state.reviews = []
   }
 }
 
@@ -135,6 +138,8 @@ const actions = {
     })
       .then(res => {
         console.log('리뷰생성', res.data)
+        context.dispatch('resetReviewPage')
+        context.dispatch('addReviewPage', 1)
         context.dispatch('getAllReviews')
       })
       .catch(err => console.log(err))
@@ -184,6 +189,9 @@ const actions = {
     })
       .then(res => {
         console.log('리뷰수정', res.data)
+
+        context.dispatch('resetReviewPage')
+        context.dispatch('addReviewPage', 1)
         context.dispatch('getAllReviews') //수정 후 데이터 갱신한다.
         context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
@@ -197,7 +205,10 @@ const actions = {
     })
       .then(res => {
         console.log('리뷰삭제', res.data)
-        context.dispatch('getAllReviews') //삭제 후 데이터 갱신한다.
+        
+        context.dispatch('resetReviewPage')
+        context.dispatch('addReviewPage', 1)
+        context.dispatch('getAllReviews')
         context.dispatch('getTop5') //수정 후 데이터 갱신한다.
       })
       .catch(err => console.log(err))
@@ -265,6 +276,9 @@ const actions = {
   addReviewPage(context, page){
     console.log('리뷰 페이지 추가', page)
     context.commit('ADD_REVIEW_PAGE', page)
+  },
+  resetReviewPage(context){
+    context.commit('RESET_REVIEW_PAGE')
   }
 }
 

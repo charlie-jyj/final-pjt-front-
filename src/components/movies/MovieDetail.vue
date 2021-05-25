@@ -45,7 +45,7 @@
               <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10">
-                  <p>평균 별점: {{ !MovieDetail.avg_rate.rate__avg? 0 : MovieDetail.avg_rate.rate__avg }}점 </p>
+                  <p class="mt-2">평균 별점: {{ !MovieDetail.avg_rate.rate__avg? 0 : MovieDetail.avg_rate.rate__avg }}점 </p>
                   <MovieRateList/>
                 </div>
                 <div class="col-1"></div>
@@ -130,7 +130,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['MovieDetail', 'isMovieDetailReady','isAuthenticated', 'MovieDetailLike'])
+    ...mapGetters(['MovieDetail', 'isMovieDetailReady','isAuthenticated', 'MovieDetailLike', 'RatedMovies'])
   },
   methods: {
     popRateForm(rating){
@@ -139,7 +139,6 @@ export default {
       }
     },
     expandOverview(){
- 
       const overviewWrapper = document.querySelector('#overviewWrapper')
       const overviewText = document.querySelector('#overviewText')
       const moreBtn = document.querySelector('#moreBtn')

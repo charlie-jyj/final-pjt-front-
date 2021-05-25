@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5">
-    <Review v-for="(review, index) in Reviews" :key="index" :review="review"/>
+    <Review :popular="false" v-for="(review, index) in Reviews" :key="index" :review="review"/>
   </div>
 </div>
 </template>

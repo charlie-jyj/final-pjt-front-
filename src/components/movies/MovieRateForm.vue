@@ -25,7 +25,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated', 'RatedMovies'])
   },
   methods: {
     inputComment(){
@@ -41,10 +41,22 @@ export default {
         data,
       }
 
-      if(this.isAuthenticated){
+      let flag = false
+      const ratemovies = this.RatedMovies
+      ratemovies.forEach(movie => {
+        if (movie.id === this.movie_pk){
+          flag = true
+        } 
+      })
+
+      if(flag){
+        alert('이미 평가한 영화에요.')
+
+      } else if(this.isAuthenticated){
         this.$store.dispatch('createMovieRate',pack)
         this.comment = ''
-      }else{
+     
+      } else{
         alert('로그인이 필요한 서비스입니다.')
       }
  

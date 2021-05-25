@@ -49,6 +49,9 @@ const getters = {
   },
   CurrentPage(state){
     return state.now
+  },
+  RatedMovies(state){
+    return state.ratedMovies
   }
 }
 

@@ -8,7 +8,7 @@
             <div>
             <p class="updated_at">{{ review.updated_at.slice(0, 10) }}</p>
             </div>
-            <div>
+            <div v-if="popular">
             <i class="fas fa-heart" style="color:orange;"></i><span>{{review.user_like_count}}</span>
             </div>
           </div>
@@ -37,6 +37,7 @@ export default {
   name: 'Review',
   props: {
     review: Object,
+    popular: Boolean,
   },
   mounted(){
     const colors = ['color1', 'color2', 'color3', 'color4', 'color5',
