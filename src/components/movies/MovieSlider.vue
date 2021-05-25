@@ -2,7 +2,7 @@
   <swiper @click-slide="handleClickSlide" class="swiper" :options="swiperOption">
     <swiper-slide v-for="(movie, index) in MovieSeries" :key="index">
       <div class="movie-wrapper">
-        <img :src="movie.fields.poster_path" alt="" style='height: 100%; width: 100%; object-fit: contain'>
+        <img :src="movie.poster_path" alt="" style='height: 100%; width: 100%; object-fit: contain'>
       </div>
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
@@ -56,6 +56,7 @@
       showMovieDetail(index){
         //Movie 객체 자체를 넘겨버리면.. Detail 에서 보여줄 수 있겠지요
         console.log(this.MovieSeries[index])
+        this.$router.push({name:'MoviePage'})
       }
     }
   }

@@ -12,7 +12,7 @@
               <div class="col-1"></div>
               <div class="col-10">
                 <div v-if="isMovieReview" class="ref mt-5">
-                  <span>#</span><span>{{Ref.fields.title}}</span>
+                  <span>#</span><span>{{Ref.title}}</span>
                 </div>
                 <div class="title mt-3">
                   <div class="mb-3">
@@ -59,7 +59,7 @@ export default {
       const review = {
         title: this.title,
         content: this.content,
-        movie: this.isMovieReview? this.Ref.pk : null  // 이거 나중에 id로 바꿔야 함
+        movie: this.isMovieReview? this.Ref.id : null 
       }
 
       console.log(review.title, review.content)

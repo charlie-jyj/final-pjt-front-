@@ -29,12 +29,12 @@ export default {
   methods: {
     ...mapActions(['setCommentUpdateForm']),
     deleteReviewComment(){
-      const data = {
+      const pack = {
         review_pk : this.review_pk,
         comment_pk : this.comment.id
       }
 
-      this.$store.dispatch('deleteReviewComment', data)
+      this.$store.dispatch('deleteReviewComment', pack)
     }
   }
 }

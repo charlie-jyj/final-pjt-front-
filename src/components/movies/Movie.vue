@@ -1,9 +1,9 @@
 <template>
   <div class="col item">
-    <div @click="showMovieDetail" class="box" :style="`background-image:url(${movie.fields.poster_path})`"> <!--movie.poster_path-->
+    <div @click="showMovieDetail" class="box" :style="`background-image:url(${movie.poster_path})`"> <!--movie.poster_path-->
       <div class="cover">
-          <p class="name">{{movie.fields.title}}</p>   <!--movie.title-->
-          <p class="title">{{movie.fields.title}}</p>  <!--movie.series.name-->
+          <p class="name">{{movie.title}}</p>   <!--movie.title-->
+          <p class="title">{{movie.series.name}}</p>  <!--movie.series.name-->
           <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
       </div>
     </div>

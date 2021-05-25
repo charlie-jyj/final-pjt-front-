@@ -5,7 +5,7 @@
       <div  class="card mt-3" style="width: 10rem;">
         <div class="card-body" style="height: 12rem;">
           <div class="review-like d-flex justify-content-end mb-3">
-            <i class="fas fa-heart" style="color:orange;"></i><span>{{review.like_count}}</span>
+            <i class="fas fa-heart" style="color:orange;"></i><span>{{review.user_like_count}}</span>
           </div>
           <p class="card-title">{{review.title}}</p>
           <p v-if="!!Object.keys(review.movie).length" class="ref">#{{review.movie.title}}</p>
