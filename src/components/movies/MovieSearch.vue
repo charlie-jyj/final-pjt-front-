@@ -13,13 +13,14 @@
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 import {mapGetters} from 'vuex'
+import axios from 'axios'
+import DRF from '@/api/drf.js'
 
 export default {
   name: 'MovieSearch',
   data(){
     return {
       input: '',
-      keywordList : this.AutoCompleteList
     }
   },
   components: {
@@ -33,15 +34,31 @@ export default {
       this.input = input
       // input 이 입력될 때마다 이 함수가 호출되고 있다. 
       // input 값을 서버로 보내주자.
-      this.$store.dispatch('autoComplete', input)
-
-      if (input.length < 1) { return [] }
+      // this.$store.dispatch('autoComplete', input)
+      if (input.length < 1) { 
+        console.log('이건뭐야')
+        return [] }
       
-      // axios로 받아온 리스트를 return 하여 자동완성을 만든다
-      return this.AutoCompleteList.filter(item => {
-        return item.toLowerCase()
-          .startsWith(input.toLowerCase())
+      return  axios({
+      method: 'get',
+      url: DRF.URL + DRF.ROUTES.search(input),
+      headers: this.$store.getters.config,
       })
+      .then(res => {
+        const response = res.data
+        const autoComplete = []
+        response.forEach(item => autoComplete.push(item.title))
+        console.log('자동완성', autoComplete, typeof(autoComplete))
+        return autoComplete
+        // context.commit('AUTO_COMPLETE', autoComplete)
+      })  
+      .catch(err => console.log(err))
+
+      // axios로 받아온 리스트를 return 하여 자동완성을 만든다
+      // return this.AutoCompleteList.filter(item => {
+      //   return item.toLowerCase()
+      //     .startsWith(input.toLowerCase())
+      // })
   
     },
      handleSubmit(result) {
