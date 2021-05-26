@@ -69,8 +69,15 @@ export default {
       // 서버와 통신
       this.$store.dispatch('getMovieSchedule', data)
 
-      // 모달 닫기
+      // 모달 닫기 & 초기화
       document.querySelector('#movieScheduleModalClose').click()
+      document.querySelector('#seriesSelect').value=''
+      dateInput.forEach(input => {
+        input.value=''
+      })
+      timeInput.forEach(input => {
+        input.value =''
+      })
     },
     addItem(){
       const items = document.querySelector('#formItems')

@@ -39,14 +39,15 @@
       <div class="col-md-8">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Movie Scheduler</button>
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Movie Scheduler</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="container movie-scheduler-wrapper">
               <div class="d-grid gap-2">
-                <button class="btn btn-schedule" data-bs-toggle="modal" data-bs-target="#movieSchedulerModal" type="button">schedule maker</button>
+                <button class="btn btn-schedule" @click="movieScheduleFormOpen" type="button">schedule maker</button>
+                <button class="btn btn-schedule d-none" id="movieScheduleFormOpenBtn" data-bs-toggle="modal" data-bs-target="#movieSchedulerModal" type="button">schedule maker</button>
               </div>
               <div>
                 <MovieScheduler/>
@@ -76,7 +77,12 @@ export default {
     ...mapGetters(['Nickname','Username', 'UserImg',])
   },
   methods: {
-    ...mapActions(['getProfile', 'getMovieSeries'])
+    ...mapActions(['getProfile', 'getMovieSeries', 'clearMovieSchedule']),
+    movieScheduleFormOpen(){
+      const openModalBtn = document.querySelector('#movieScheduleFormOpenBtn')
+      openModalBtn.click()
+      this.clearMovieSchedule()
+    }
   },
   created(){
     console.log('나 지금 3페이지')

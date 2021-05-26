@@ -234,6 +234,9 @@ const actions = {
     })
     .catch(err => console.log(err))
  },
+ clearMovieSchedule(context){
+  context.commit('SET_MOVIE_SCHEDULE',[])
+ },
  logout(context){
    axios({
      method: 'post',
