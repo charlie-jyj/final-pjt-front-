@@ -15,7 +15,7 @@
           <div class="col-1"></div>
         </div>
         <div class="row mt-2 mb-4">
-          <div class="d-grid gap-2 mx-auto">
+          <div v-if="!isAuthenticated" class="d-grid gap-2 mx-auto">
             <button @click="startSignUp" class="btn btn-start" type="button">시작하기</button>
             <button class="btn btn-start d-none" id="startSignUp" type="button" data-bs-toggle="modal" data-bs-target="#signupModal">시작하기</button>
             <button class="btn btn-login mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import SignupBase from '@/components/accounts/SignupBase.vue'
 import Login from '@/components/accounts/Login.vue'
 
@@ -45,6 +46,9 @@ export default {
       const startBtn = document.querySelector('#startSignUp')
       startBtn.click()
     }
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
   }
 }
 </script>
