@@ -2,6 +2,7 @@ import axios from 'axios'
 import DRF from '@/api/drf.js'
 import router from '@/router/index.js'
 import cookies from 'vue-cookies'
+// import Vue from 'vue'
 
 const state = {
  token: cookies.get('user-token'),
@@ -248,6 +249,7 @@ const actions = {
       cookies.remove('user-token')
       cookies.remove('nickname')
       router.push({name:'EntryPage'})
+    
     })
  },
  currentPage(context,page){

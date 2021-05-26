@@ -45,7 +45,7 @@
               <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10">
-                  <p class="mt-2">평균 별점: {{ !MovieDetail.avg_rate.rate__avg? 0 : MovieDetail.avg_rate.rate__avg }}점 </p>
+                  <p class="mt-2">평균 별점: {{ !MovieDetail.avg_rate? 0 : MovieDetail.avg_rate.rate__avg }}점 </p>
                   <MovieRateList/>
                 </div>
                 <div class="col-1"></div>
