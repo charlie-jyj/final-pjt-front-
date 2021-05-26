@@ -65,8 +65,8 @@ export default {
           imageUrl:
             this.UserImg,
           link: {
-            mobileWebUrl: 'http://172.16.101.102:8080/',
-            webUrl: 'http://172.16.101.102:8080/',
+            mobileWebUrl: 'http://movie-pick.com/',
+            webUrl: 'http://movie-pick.com/',
             androidExecParams: 'test',
           },
         },
@@ -79,15 +79,15 @@ export default {
           {
             title: '웹으로 이동',
             link: {
-              mobileWebUrl: 'http://172.16.101.102:8080/',
-              webUrl: 'http://172.16.101.102:8080/',
+              mobileWebUrl: 'http://movie-pick.com/',
+              webUrl: 'http://movie-pick.com/',
             },
           },
           {
             title: '앱으로 이동',
             link: {
-              mobileWebUrl: 'http://172.16.101.102:8080/',
-              webUrl: 'http://172.16.101.102:8080/',
+              mobileWebUrl: 'http://movie-pick.com/',
+              webUrl: 'http://movie-pick.com/',
             },
           },
         ]

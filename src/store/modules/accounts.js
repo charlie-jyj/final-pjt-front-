@@ -118,7 +118,10 @@ const actions = {
       console.log(data)
       context.dispatch('getSurveyMovies')
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      alert('다시 접속을 시도해주세요.')
+    })
 
  },
  rateWatchedMovie(context, data){
@@ -249,7 +252,7 @@ const actions = {
       cookies.remove('user-token')
       cookies.remove('nickname')
       router.push({name:'EntryPage'})
-    
+      window.location.reload()
     })
  },
  currentPage(context,page){
