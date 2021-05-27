@@ -44,6 +44,9 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div v-if="MovieToSee&&MovieToSee.length>0" class="movie-to-see-wrapper">
+              <MovieToSee/>
+            </div>
             <div class="container movie-scheduler-wrapper">
               <div class="d-grid gap-2">
                 <button class="btn btn-schedule" @click="movieScheduleFormOpen" type="button">schedule maker</button>
@@ -67,14 +70,15 @@
 import {mapGetters, mapActions} from 'vuex'
 import MovieScheduler from '@/components/profile/MovieScheduler.vue'
 import MovieSchedulerModal from '@/components/profile/MovieSchedulerModal.vue'
+import MovieToSee from '@/components/profile/MovieToSee.vue'
 
 export default {
   name: 'ProfilePage',
   components: {
-    MovieScheduler, MovieSchedulerModal
+    MovieScheduler, MovieSchedulerModal, MovieToSee
   },
   computed: {
-    ...mapGetters(['Nickname','Username', 'UserImg',])
+    ...mapGetters(['Nickname','Username', 'UserImg', 'MovieToSee'])
   },
   methods: {
     ...mapActions(['getProfile', 'getMovieSeries', 'clearMovieSchedule']),

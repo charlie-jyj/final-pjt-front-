@@ -177,7 +177,10 @@ const actions = {
       
       router.push({name:'MoviePage'}) 
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      alert('로그인 실패, 아이디/ 비밀번호 확인해주세요.')
+    })
  },
  getProfile(context){
   axios({
