@@ -97,14 +97,14 @@ export default {
     checkValue(event){
       const answer = event.target.value
       if (this.round!==3 && answer === 'true'){
-        this.current = this.current*2 + 1
+        this.current = this.current*2 
         this.round += 1
       } else if (this.round!==3 && answer === 'false') {
-        this.current = this.current*2
+        this.current = this.current*2 + 1
         this.round += 1
       } else if (this.round === 3) {
         const adjective = _.sample(this.adjective)
-        const final = answer === 'true'? this.current*2 + 1 : this.current*2
+        const final = answer === 'true'? this.current*2 : this.current*2 + 1
         const nickname = adjective+' '+ this.CharacterSurvey[final].character.name
         
         const data = {
