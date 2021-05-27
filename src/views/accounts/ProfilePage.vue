@@ -8,13 +8,18 @@
       </div>
       <div class="col-md-6">
           <div class="profile-head">
-                      <h5>
-                        {{Nickname}}
-                      </h5>
+                      <div class="d-flex flex-row justify-content-between">
+                        <div>
+                          <h5>
+                            {{Nickname}}
+                          </h5>
+                        </div>
+                        <button @click="kakaoShare" type="button" class="btn btn-outline-secondary btn-sm btn-share ms-3" data-bs-toggle="tooltip" data-bs-placement="top" title="카카오톡으로 공유">
+                          <i class="fas fa-share-square share-icon"></i></button>
+                      </div>
                       <h6>
                         {{Username}}
-                      </h6>
-                      <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                      </h6>   
           </div>
       </div>
       <div class="col-md-2">
@@ -86,14 +91,52 @@ export default {
       const openModalBtn = document.querySelector('#movieScheduleFormOpenBtn')
       openModalBtn.click()
       this.clearMovieSchedule()
-    }
+    },
+    kakaoShare(){
+      console.log(window.Kakao)
+      window.Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: this.Nickname+'이(가) 보냅니다.',
+          description: '무야호~ 당신을 초대합니다.',
+          imageUrl:
+            this.UserImg,
+          link: {
+            mobileWebUrl: 'https://www.moviepickvue.com/',
+            webUrl: 'https://www.moviepickvue.com/',
+            androidExecParams: 'test',
+          },
+        },
+        social: {
+          likeCount: 10,
+          commentCount: 20,
+          sharedCount: 30,
+        },
+        buttons: [
+          {
+            title: '웹으로 이동',
+            link: {
+              mobileWebUrl: 'https://www.moviepickvue.com/',
+              webUrl: 'https://www.moviepickvue.com/',
+            },
+          },
+          {
+            title: '앱으로 이동',
+            link: {
+              mobileWebUrl: 'https://www.moviepickvue.com/',
+              webUrl: 'https://www.moviepickvue.com/',
+            },
+          },
+        ]
+      });
+}
   },
   created(){
     console.log('나 지금 3페이지')
     this.$store.dispatch('currentPage', 3)
     this.getProfile()
     this.getMovieSeries()
-  }
+  },
 }
 </script>
 
