@@ -1,5 +1,5 @@
 export default {
-  URL: 'http://movie-pick.com/',
+  URL: 'https://movie-pick.com/',
   ROUTES: {
     // account
     signup: 'rest-auth/registration/',
